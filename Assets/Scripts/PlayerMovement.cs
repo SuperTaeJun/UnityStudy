@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyRot()
     {
 
-        Vector3 LookingDir = Player.PlayerAim.GetMousePos() - transform.position;
+        Vector3 LookingDir = Player.PlayerAim.GetMouseHitInfo().point - transform.position;
         LookingDir.y = 0.0f;
         LookingDir.Normalize();
 
