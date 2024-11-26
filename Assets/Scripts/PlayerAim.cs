@@ -13,7 +13,7 @@ public class PlayerAim : MonoBehaviour
     [Header("Aim")]
     [SerializeField] private Transform Aim;
 
-
+    [SerializeField] private bool IsAimingPrecisly;
 
     [Header("CameraInfo")]
     [SerializeField] private float MinCameraDistance = 1.0f;
@@ -36,9 +36,24 @@ public class PlayerAim : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.T)) { IsAimingPrecisly = !IsAimingPrecisly; }
+
+
+        UpdateAimPosition();
+        UpdateCameraPosition();
+    }
+
+    private void UpdateCameraPosition()
+    {
+        CameraTarget.position = Vector3.Lerp(CameraTarget.position, DesieredCameraPos(), CameraSensetivity * Time.deltaTime);
+    }
+
+    private void UpdateAimPosition()
+    {
         Aim.position = GetMouseHitInfo().point;
-        Aim.position = new Vector3(Aim.position.x, transform.position.y + 1, Aim.position.z); 
-        CameraTarget.position = Vector3.Lerp(CameraTarget.position, DesieredCameraPos(), CameraSensetivity*Time.deltaTime);
+
+        if (!IsAimingPrecisly)
+            Aim.position = new Vector3(Aim.position.x, transform.position.y + 1, Aim.position.z);
     }
 
     private Vector3 DesieredCameraPos()
@@ -74,5 +89,12 @@ public class PlayerAim : MonoBehaviour
     {
         playerControlls.Character.Aim.performed += context => AimInput = context.ReadValue<Vector2>();
         playerControlls.Character.Aim.canceled += context => AimInput = Vector2.zero;
+    }
+
+    public bool CanAimPrecisly()
+    {
+        if(IsAimingPrecisly)
+            return true;
+        return false;
     }
 }

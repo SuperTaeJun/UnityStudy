@@ -16,11 +16,11 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        Controls.Enable();
+       Controls.Enable();
     }
     private void OnDisable()
     {
-        Controls.Disable();
+       Controls.Disable();
     }
 }
  
