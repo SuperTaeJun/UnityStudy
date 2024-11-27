@@ -11,7 +11,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Transform MuzzlePoint;
 
     [SerializeField] private Transform WeaponHolderTransform;
-    [SerializeField] private Transform Aim;
+    //[SerializeField] private Transform Aim;
 
     private void Start()
     {
@@ -30,16 +30,20 @@ public class WeaponController : MonoBehaviour
         GetComponentInChildren<Animator>().SetTrigger("Fire");
     }
 
-    private Vector3 BulletDir()
+    public Vector3 BulletDir()
     {
+        Transform Aim = Player.PlayerAim.GetAim();
+
         Vector3 Dir = (Aim.position - MuzzlePoint.position).normalized;
 
         if(Player.PlayerAim.CanAimPrecisly() == false)
             Dir.y = 0;
 
-        WeaponHolderTransform.LookAt(Aim);
-        MuzzlePoint.LookAt(Aim);
+        //WeaponHolderTransform.LookAt(Aim);
+        //MuzzlePoint.LookAt(Aim);
 
         return Dir;
     }
+
+    public Transform GetMuzzlePoint() => MuzzlePoint;
 }
