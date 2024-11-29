@@ -543,17 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b7f1d84f899ea4c8e2f32d19fae3a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponTransform:
-  - {fileID: 1903793986}
-  - {fileID: 1135328117}
-  - {fileID: 371557231}
-  - {fileID: 1811539308}
-  - {fileID: 289698965}
-  Pistol: {fileID: 1903793986}
-  Revolver: {fileID: 1135328117}
-  Rifle: {fileID: 371557231}
-  ShotGun: {fileID: 1811539308}
-  Sniper: {fileID: 289698965}
+  WeaponModels: []
   RigIncreseSpeed: 6
   LeftHandIk: {fileID: 261425794}
   LeftHandIkTarget: {fileID: 2127304279}
@@ -689,6 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 289698965}
+  - component: {fileID: 289698966}
   m_Layer: 8
   m_Name: Weapon_Sniper
   m_TagString: Untagged
@@ -716,6 +707,23 @@ Transform:
   - {fileID: 426397202}
   m_Father: {fileID: 1637259712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289698966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289698964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c614f77d646967a4ab2d7f59e15feee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: 4
+  SwapType: 1
+  HoldType: 3
+  MuzzlePoint: {fileID: 426397202}
+  HoldPoint: {fileID: 253344323}
 --- !u!1 &371557230
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 371557231}
+  - component: {fileID: 371557232}
   m_Layer: 8
   m_Name: Weapon_Rifle
   m_TagString: Untagged
@@ -751,6 +760,23 @@ Transform:
   - {fileID: 534810065}
   m_Father: {fileID: 1637259712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &371557232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371557230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c614f77d646967a4ab2d7f59e15feee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: 2
+  SwapType: 1
+  HoldType: 1
+  MuzzlePoint: {fileID: 534810065}
+  HoldPoint: {fileID: 714768916}
 --- !u!1 &423677712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,6 +2112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1135328117}
+  - component: {fileID: 1135328118}
   m_Layer: 8
   m_Name: Weapon_Revolver
   m_TagString: Untagged
@@ -2112,6 +2139,23 @@ Transform:
   - {fileID: 49690635}
   m_Father: {fileID: 1637259712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1135328118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135328116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c614f77d646967a4ab2d7f59e15feee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: 1
+  SwapType: 0
+  HoldType: 1
+  MuzzlePoint: {fileID: 49690635}
+  HoldPoint: {fileID: 2105990189}
 --- !u!1 &1167758507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,6 +2735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1811539308}
+  - component: {fileID: 1811539309}
   m_Layer: 8
   m_Name: Weapon_Shotgun
   m_TagString: Untagged
@@ -2717,6 +2762,23 @@ Transform:
   - {fileID: 1167758508}
   m_Father: {fileID: 1637259712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1811539309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811539307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c614f77d646967a4ab2d7f59e15feee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: 3
+  SwapType: 1
+  HoldType: 2
+  MuzzlePoint: {fileID: 1167758508}
+  HoldPoint: {fileID: 2145259692}
 --- !u!1001 &1841745633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2862,6 +2924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1903793986}
+  - component: {fileID: 1903793987}
   m_Layer: 8
   m_Name: Weapon_Pistol
   m_TagString: Untagged
@@ -2888,6 +2951,23 @@ Transform:
   - {fileID: 502913396}
   m_Father: {fileID: 1637259712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1903793987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903793985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c614f77d646967a4ab2d7f59e15feee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponType: 0
+  SwapType: 0
+  HoldType: 1
+  MuzzlePoint: {fileID: 502913396}
+  HoldPoint: {fileID: 1057993333}
 --- !u!1 &1933622930
 GameObject:
   m_ObjectHideFlags: 0

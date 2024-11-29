@@ -1,4 +1,4 @@
-public enum WeaponType
+public enum EWeaponType
 {
     Pistol,
     Revolver,
@@ -12,7 +12,7 @@ public enum WeaponType
 [System.Serializable]
 public class Weapon
 {
-    public WeaponType WeaponType;
+    public EWeaponType WeaponType;
     public int CurAmmo;
     public int ReloadAmount;
     public int totalCapacity;

@@ -27,13 +27,15 @@ public class WeaponController : MonoBehaviour
         Player = GetComponent<Player>();
 
         AssignInputEvent();
-        EquipWeapon(0);
+        //EquipWeapon(0);
     }
 
     #region Slots-Pickup,Drop,Equip
     private void EquipWeapon(int Index)
     {
         CurWeapon = WeaponSlots[Index];
+
+        Player.WeaponVisual.PlayWeaponEquipAnim();
     }
 
     public void PickupWeapon(Weapon NewWeapon)

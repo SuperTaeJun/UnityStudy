@@ -28,4 +28,6 @@ public class PlayerAnimEvent : MonoBehaviour
     {
         WeaponVisualController.SetbIsSwappingWeapon(false);
     }
+
+    public void SwitchOnWeaponModel() => WeaponVisualController.SwitchOnCurWeaponModel();
 }

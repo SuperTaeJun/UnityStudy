@@ -5,21 +5,11 @@ using UnityEngine.Animations.Rigging;
 
 public class PlayerWeaponVisual : MonoBehaviour
 {
+    private Player Player;
     private Animator Anim;
-
     private bool bIsSwappingWeapon = false;
 
-    #region WeaponTransform
-    [SerializeField] private Transform[] WeaponTransform;
-
-    [SerializeField] private Transform Pistol;
-    [SerializeField] private Transform Revolver;
-    [SerializeField] private Transform Rifle;
-    [SerializeField] private Transform ShotGun;
-    [SerializeField] private Transform Sniper;
-
-    private Transform CurWeapon;
-    #endregion
+    [SerializeField] private WeaponModel[] WeaponModels;
 
     [Header("Rig")]
     [SerializeField] float RigIncreseSpeed = 6.0f;
@@ -36,18 +26,36 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     private void Start()
     {
-        SwitchOnWeapon(Pistol);
+        Player = GetComponent<Player>();
         Anim = GetComponentInChildren<Animator>();
         rig = GetComponentInChildren<Rig>();
+        WeaponModels = GetComponentsInChildren<WeaponModel>(true);
+
     }
 
     private void Update()
     {
-        CheckWeaponSwitch();
-
         UpdateRigWeight();
         UpdateLeftHandIkWeight();
     }
+
+    public WeaponModel CurWeaponModel()
+    {
+        WeaponModel WeaponModel = null;
+
+        EWeaponType weaponType = Player.WeaponController.GetCurWeapon().WeaponType;
+        for (int i = 0; i < WeaponModels.Length; i++)
+        {
+            if (WeaponModels[i].WeaponType == weaponType)
+            {
+                Debug.Log(weaponType);
+                WeaponModel = WeaponModels[i];
+            }
+        }
+        return WeaponModel;
+    }
+
+
 
     public void PlayReloadAnim()
     {
@@ -80,12 +88,15 @@ public class PlayerWeaponVisual : MonoBehaviour
     {
         rig.weight = 0;
     }
-
     public void MaximizeRigWeight() => bShouldbeIncreseRigWeight = true ;
     public void MaximizeLeftHandIkWeight() => bShouldIncreseLeftHandIkWight = true;
 
-    private void PlayerSwapWeaponAnim(eSwapType swapType)
+    public void PlayWeaponEquipAnim()
     {
+        ESwapType swapType = CurWeaponModel().SwapType;
+
+        Debug.Log(swapType);
+
         LeftHandIk.weight = 0; 
         PauseRig();
         Anim.SetFloat("WeaponSwapType", ((float)swapType));
@@ -93,38 +104,36 @@ public class PlayerWeaponVisual : MonoBehaviour
 
         SetbIsSwappingWeapon(true);
     }
-
     public void SetbIsSwappingWeapon(bool bIsSwapping)
     {
         bIsSwappingWeapon = bIsSwapping;
         Anim.SetBool("IsSwapping", bIsSwappingWeapon);
 
     }
-
-    private void SwitchOnWeapon(Transform Type)
+    public void SwitchOnCurWeaponModel()
     {
-        SwitchOffWeapon();
-        Type.gameObject.SetActive(true);
-        CurWeapon = Type;
+        int AnimIndex = ((int)CurWeaponModel().HoldType);
+        SwitchAnimLayer(AnimIndex);
+
+        Player.WeaponVisual.SwitchOffWeapon();
+        CurWeaponModel().gameObject.SetActive(true);
 
         AttachLeftHand();
     }
-    private void SwitchOffWeapon()
+    public void SwitchOffWeapon()
     {
-        for (int i = 0; i < WeaponTransform.Length; i++)
+        for (int i = 0; i < WeaponModels.Length; i++)
         {
-            WeaponTransform[i].gameObject.SetActive(false);
+            WeaponModels[i].gameObject.SetActive(false);
         }
     }
-
     private void AttachLeftHand()
     {
-        Transform TargetTransform = CurWeapon.GetComponentInChildren<LeftHandTargetTransform>().transform;
+        Transform TargetTransform = CurWeaponModel().HoldPoint;
 
         LeftHandIkTarget.localPosition = TargetTransform.localPosition;
         LeftHandIkTarget.localRotation = TargetTransform.localRotation;
     }
-
     private void SwitchAnimLayer(int LayerIndex)
     {
         for(int i = 1;i < Anim.layerCount;i++) 
@@ -133,43 +142,5 @@ public class PlayerWeaponVisual : MonoBehaviour
         }
         Anim.SetLayerWeight(LayerIndex, 1);
     }
-    private void CheckWeaponSwitch()
-    {
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            SwitchOnWeapon(Pistol);
-            SwitchAnimLayer(1);
-            PlayerSwapWeaponAnim(eSwapType.SideSwap);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            SwitchOnWeapon(Revolver);
-            SwitchAnimLayer(1);
-            PlayerSwapWeaponAnim(eSwapType.SideSwap);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            SwitchOnWeapon(Rifle);
-            SwitchAnimLayer(1);
-            PlayerSwapWeaponAnim(eSwapType.BackSwap);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha4))
-        {
-            SwitchOnWeapon(ShotGun);
-            SwitchAnimLayer(2);
-            PlayerSwapWeaponAnim(eSwapType.BackSwap);
-        }
-        else if (Input.GetKeyUp(KeyCode.Alpha5))
-        {
-            SwitchOnWeapon(Sniper);
-            SwitchAnimLayer(3);
-            PlayerSwapWeaponAnim(eSwapType.BackSwap);
-        }
-    }
 }
 
-public enum eSwapType
-{
-    SideSwap,
-    BackSwap
-};
