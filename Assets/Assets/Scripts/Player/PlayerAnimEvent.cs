@@ -16,7 +16,8 @@ public class PlayerAnimEvent : MonoBehaviour
     {
         WeaponVisualController.MaximizeRigWeight();
         WeaponController.GetCurWeapon().Reload();
-        //fill ammo ...
+
+        WeaponController.SetWeaponReady(true);
     }
 
     public void RetrunRig()
@@ -26,7 +27,8 @@ public class PlayerAnimEvent : MonoBehaviour
     }
     public void WeaponSwapOver()
     {
-        WeaponVisualController.SetbIsSwappingWeapon(false);
+
+        WeaponController.SetWeaponReady(true);
     }
 
     public void SwitchOnWeaponModel() => WeaponVisualController.SwitchOnCurWeaponModel();

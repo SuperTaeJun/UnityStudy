@@ -21,7 +21,7 @@ public class PlayerAim : MonoBehaviour
     [Header("CameraInfo")]
     [SerializeField] private float MinCameraDistance = 1.0f;
     [SerializeField] private float MaxCameraDistance = 1.5f;
-    [SerializeField] private float CameraSensetivity =5.0f;
+    [SerializeField] private float CameraSensetivity = 5.0f;
 
     [SerializeField] private Transform CameraTarget;
     [SerializeField] private LayerMask AimLayerMask;
@@ -39,7 +39,7 @@ public class PlayerAim : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T)) { IsAimingPrecisly = !IsAimingPrecisly; }
+        if (Input.GetKeyDown(KeyCode.T)) { IsAimingPrecisly = !IsAimingPrecisly; }
 
 
         UpdateAimLaser();
@@ -49,23 +49,32 @@ public class PlayerAim : MonoBehaviour
 
     private void UpdateAimLaser()
     {
+        AimLaser.enabled = player.WeaponController.GetWeaponReady();
+
+        if (AimLaser.enabled == false) return;
+
+    
+        WeaponModel weaponModel = player.WeaponVisual.CurWeaponModel();
+        weaponModel.transform.LookAt(Aim);
+        weaponModel.MuzzlePoint.LookAt(Aim); 
+
         float TipLenght = 0.5f;
         Transform MuzzlePoint = player.WeaponController.GetMuzzlePoint();
 
         Vector3 LaserDir = player.WeaponController.BulletDir();
         float WeaponDistance = 4f;
 
-        Vector3 EndPoint =MuzzlePoint.position + (LaserDir * WeaponDistance);
+        Vector3 EndPoint = MuzzlePoint.position + (LaserDir * WeaponDistance);
 
-        if(Physics.Raycast(MuzzlePoint.position, LaserDir, out RaycastHit hit, WeaponDistance))
+        if (Physics.Raycast(MuzzlePoint.position, LaserDir, out RaycastHit hit, WeaponDistance))
         {
             EndPoint = hit.point;
             TipLenght = 0f;
         }
 
-        AimLaser.SetPosition(0,MuzzlePoint.position);
-        AimLaser.SetPosition(1,EndPoint);
-        AimLaser.SetPosition(2, EndPoint + LaserDir*TipLenght);
+        AimLaser.SetPosition(0, MuzzlePoint.position);
+        AimLaser.SetPosition(1, EndPoint);
+        AimLaser.SetPosition(2, EndPoint + LaserDir * TipLenght);
     }
     private void UpdateAimPosition()
     {
@@ -80,7 +89,7 @@ public class PlayerAim : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(MouseInput);
 
-        if(Physics.Raycast(ray, out RaycastHit hitInfo,Mathf.Infinity,AimLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, AimLayerMask))
         {
             LastknownMouseHit = hitInfo;
             return hitInfo;
@@ -95,7 +104,7 @@ public class PlayerAim : MonoBehaviour
         float actualMaxCameraDistance = player.PlayerMovement.MoveInput.y < -0.5f ? MinCameraDistance : MaxCameraDistance;
 
         Vector3 desieredCameraPos = GetMouseHitInfo().point;
-        Vector3 AimDir =(desieredCameraPos - transform.position).normalized;
+        Vector3 AimDir = (desieredCameraPos - transform.position).normalized;
 
         float DistanceToDesieredPos = Vector3.Distance(transform.position, desieredCameraPos);
 

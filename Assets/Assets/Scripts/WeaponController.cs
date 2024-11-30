@@ -10,11 +10,11 @@ public class WeaponController : MonoBehaviour
 
 
     [SerializeField] private Weapon CurWeapon;
-
+    private bool WeaponReady;
+    private bool IsFiring;
 
     [SerializeField] private GameObject BulletPrefab;
     [SerializeField] private float BulletSpeed;
-    [SerializeField] private Transform MuzzlePoint;
 
     [SerializeField] private Transform WeaponHolderTransform;
 
@@ -27,12 +27,24 @@ public class WeaponController : MonoBehaviour
         Player = GetComponent<Player>();
 
         AssignInputEvent();
-        //EquipWeapon(0);
+        Invoke("StartWeapon", 0.1f);
+    }
+    private void Update()
+    {
+        if(IsFiring)
+        {
+            Shoot();
+        }
     }
 
+
     #region Slots-Pickup,Drop,Equip
+    private void StartWeapon() => EquipWeapon(0);
+
     private void EquipWeapon(int Index)
     {
+        SetWeaponReady(false);
+
         CurWeapon = WeaponSlots[Index];
 
         Player.WeaponVisual.PlayWeaponEquipAnim();
@@ -42,70 +54,103 @@ public class WeaponController : MonoBehaviour
     {
         if (WeaponSlots.Count >= MaxSlotCnt) return;
 
-        WeaponSlots.Add(NewWeapon);
+        WeaponSlots.Add(NewWeapon); 
+        Player.WeaponVisual.SwitchOnBackupWeaponModels();
     }
 
     private void DropWeapon() 
     {
-        if (WeaponSlots.Count <= 1) return;
+        if (HasOneWeapon()) return;
 
         WeaponSlots.Remove(CurWeapon);
-
-        CurWeapon = WeaponSlots[0];
+        EquipWeapon(0);
     }
+
+    public void SetWeaponReady(bool IsReady) => WeaponReady = IsReady;
+    public bool GetWeaponReady() => WeaponReady;
     #endregion 
 
     private void Shoot()    
     {
+        if (GetWeaponReady() == false) return;
+
         if (!CurWeapon.CanFire()) return;
 
-        GameObject NewBullet = Instantiate(BulletPrefab, MuzzlePoint.position, Quaternion.LookRotation(MuzzlePoint.forward));
-        NewBullet.GetComponent<Rigidbody>().velocity = BulletDir() * BulletSpeed;
+        if(CurWeapon.FireType == EWeaponFireType.Single)
+        {
+            IsFiring = false;
+        }
+
+        GameObject NewBullet = ObjectPool.instance.GetBullet();
+
+        NewBullet.transform.position = GetMuzzlePoint().position;
+        NewBullet.transform.rotation = Quaternion.LookRotation(GetMuzzlePoint().forward);
 
         Rigidbody RbNewBeullet = NewBullet.GetComponent<Rigidbody>();
 
         RbNewBeullet.mass = ReferenceBulletSpeed / BulletSpeed;
         RbNewBeullet.velocity = BulletDir() * BulletSpeed;
 
-        Destroy(NewBullet, 5.0f);
 
-        GetComponentInChildren<Animator>().SetTrigger("Fire");
+        Player.WeaponVisual.PlayFireAnim();
 
+    }
+    private void Reload()
+    {
+        SetWeaponReady(false);
+        Player.WeaponVisual.PlayReloadAnim();
     }
 
     public Vector3 BulletDir()
     {
         Transform Aim = Player.PlayerAim.GetAim();
 
-        Vector3 Dir = (Aim.position - MuzzlePoint.position).normalized;
+        Vector3 Dir = (Aim.position - GetMuzzlePoint().position).normalized;
 
         if(Player.PlayerAim.CanAimPrecisly() == false)
             Dir.y = 0;
 
-        //WeaponHolderTransform.LookAt(Aim);
-        //MuzzlePoint.LookAt(Aim);
+  
 
         return Dir;
     }
 
-    public Transform GetMuzzlePoint() => MuzzlePoint;
+    public bool HasOneWeapon() => WeaponSlots.Count <= 1;
+
+    public Transform GetMuzzlePoint() => Player.WeaponVisual.CurWeaponModel().MuzzlePoint;
     public Weapon GetCurWeapon() => CurWeapon;
 
+    public Weapon GetBackupWeapon()
+    {
+        foreach(Weapon weapon in WeaponSlots)
+        {
+            if(weapon != CurWeapon)
+            { 
+                return weapon; 
+            }
+        }
+        return null;
+    }
     #region InputEvent
     private void AssignInputEvent()
     {
         PlayerControlls Controls = Player.Controls;
 
-        Controls.Character.Fire.performed += context => Shoot();
+        Controls.Character.Fire.performed += context => IsFiring = true;
+        Controls.Character.Fire.canceled += context => IsFiring = false;
+
         Controls.Character.Slot1.performed += context => EquipWeapon(0);
         Controls.Character.Slot2.performed += context => EquipWeapon(1);
 
         Controls.Character.DropCurWeapon.performed += context => DropWeapon();
         Controls.Character.Reload.performed += context =>
         {
-            if(CurWeapon.CanReload())
-                Player.WeaponVisual.PlayReloadAnim();
+            if (CurWeapon.CanReload() && GetWeaponReady())
+            {
+                Reload();
+            }
         };
     }
+
     #endregion
 }

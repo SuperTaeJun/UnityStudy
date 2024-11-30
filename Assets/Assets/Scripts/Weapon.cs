@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum EWeaponType
 {
     Pistol,
@@ -6,33 +8,31 @@ public enum EWeaponType
     Shotgun,
     Sniper
 }
-
+public enum EWeaponFireType
+{
+    Single,
+    Auto
+}
 
 
 [System.Serializable]
 public class Weapon
 {
     public EWeaponType WeaponType;
+    public EWeaponFireType FireType;
     public int CurAmmo;
     public int ReloadAmount;
     public int totalCapacity;
 
+    public float ReloadSpeed = 1f;
+    public float SwapSpeed = 1f;
 
-    public bool CanFire()
-    {
-        return HasAmmo();
-    }
+    [Space]
+    public float FireRate = 1f; //초당 발사수
+    private float LastFireTime;
 
-    private bool HasAmmo()
-    {
-        if (CurAmmo > 0)
-        {
-            CurAmmo--;
-            return true;
-        }
+    private bool HasAmmo() => CurAmmo > 0;
 
-        return false;
-    }
     public bool CanReload()
     {
         if (CurAmmo == ReloadAmount) return false;
@@ -54,5 +54,23 @@ public class Weapon
 
         totalCapacity -= BulletToReload;
         CurAmmo = BulletToReload;
+    }
+    public bool CanFire()
+    {
+        if(HasAmmo() && ReadyToFire())
+        {
+            CurAmmo--;
+            return true;
+        }
+        return false;
+    }
+    private bool ReadyToFire()
+    {
+        if(Time.time> LastFireTime + 1 / FireRate)
+        {
+            LastFireTime = Time.time;
+            return true;
+        }
+        return false;
     }
 }

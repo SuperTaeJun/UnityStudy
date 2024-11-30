@@ -7,9 +7,9 @@ public class PlayerWeaponVisual : MonoBehaviour
 {
     private Player Player;
     private Animator Anim;
-    private bool bIsSwappingWeapon = false;
 
     [SerializeField] private WeaponModel[] WeaponModels;
+    [SerializeField] private BackupWeaponModel[] BackupWeaponModels;
 
     [Header("Rig")]
     [SerializeField] float RigIncreseSpeed = 6.0f;
@@ -30,7 +30,7 @@ public class PlayerWeaponVisual : MonoBehaviour
         Anim = GetComponentInChildren<Animator>();
         rig = GetComponentInChildren<Rig>();
         WeaponModels = GetComponentsInChildren<WeaponModel>(true);
-
+        BackupWeaponModels = GetComponentsInChildren<BackupWeaponModel>(true);
     }
 
     private void Update()
@@ -56,13 +56,29 @@ public class PlayerWeaponVisual : MonoBehaviour
     }
 
 
-
+    public void PlayFireAnim() => Anim.SetTrigger("Fire");
     public void PlayReloadAnim()
     {
-        if (bIsSwappingWeapon) return;
+        float ReloadSpeed = Player.WeaponController.GetCurWeapon().ReloadSpeed;
 
         Anim.SetTrigger("Reload");
+        Anim.SetFloat("ReloadSpeed", ReloadSpeed);
         PauseRig();
+    }
+    public void PlayWeaponEquipAnim()
+    {
+        ESwapType swapType = CurWeaponModel().SwapType;
+
+        float EquipAnimSpeed = Player.WeaponController.GetCurWeapon().SwapSpeed;
+
+        Debug.Log(swapType);
+
+        LeftHandIk.weight = 0; 
+        PauseRig();
+        Anim.SetFloat("WeaponSwapType", ((float)swapType));
+        Anim.SetTrigger("WeaponSwap");
+        Anim.SetFloat("SwapSpeed", EquipAnimSpeed);
+
     }
 
     private void UpdateLeftHandIkWeight()
@@ -91,40 +107,45 @@ public class PlayerWeaponVisual : MonoBehaviour
     public void MaximizeRigWeight() => bShouldbeIncreseRigWeight = true ;
     public void MaximizeLeftHandIkWeight() => bShouldIncreseLeftHandIkWight = true;
 
-    public void PlayWeaponEquipAnim()
-    {
-        ESwapType swapType = CurWeaponModel().SwapType;
-
-        Debug.Log(swapType);
-
-        LeftHandIk.weight = 0; 
-        PauseRig();
-        Anim.SetFloat("WeaponSwapType", ((float)swapType));
-        Anim.SetTrigger("WeaponSwap");
-
-        SetbIsSwappingWeapon(true);
-    }
-    public void SetbIsSwappingWeapon(bool bIsSwapping)
-    {
-        bIsSwappingWeapon = bIsSwapping;
-        Anim.SetBool("IsSwapping", bIsSwappingWeapon);
-
-    }
     public void SwitchOnCurWeaponModel()
     {
         int AnimIndex = ((int)CurWeaponModel().HoldType);
-        SwitchAnimLayer(AnimIndex);
 
-        Player.WeaponVisual.SwitchOffWeapon();
+        SwitchOffBackupWeaponModels();
+        SwitchOffWeaponModels();
+
+        if(Player.WeaponController.HasOneWeapon()==false)
+            SwitchOnBackupWeaponModels();
+
+        SwitchAnimLayer(AnimIndex);
         CurWeaponModel().gameObject.SetActive(true);
 
         AttachLeftHand();
     }
-    public void SwitchOffWeapon()
+
+    public void SwitchOnBackupWeaponModels() 
+    {
+        EWeaponType weaponType = Player.WeaponController.GetBackupWeapon().WeaponType;
+
+        foreach(BackupWeaponModel backupModel in BackupWeaponModels)
+        {
+            if(backupModel.WeaponType == weaponType)
+                backupModel.gameObject.SetActive(true);
+        }
+    }
+    public void SwitchOffWeaponModels()
     {
         for (int i = 0; i < WeaponModels.Length; i++)
         {
             WeaponModels[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void SwitchOffBackupWeaponModels()
+    {
+        foreach(BackupWeaponModel backupModel in BackupWeaponModels)
+        {
+            backupModel.gameObject.SetActive(false);
         }
     }
     private void AttachLeftHand()
