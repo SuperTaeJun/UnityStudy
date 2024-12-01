@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public enum EWeaponType
@@ -19,7 +21,17 @@ public enum EWeaponFireType
 public class Weapon
 {
     public EWeaponType WeaponType;
+
+    [Header("Shooting Spesifics")]
+
     public EWeaponFireType FireType;
+    public int BulletsPerFire;
+    public float DefaultFireRate;
+    public float FireRate = 1f; //초당 발사수
+    private float LastFireTime;
+
+    [Space]
+    [Header("Magazine Details")]
     public int CurAmmo;
     public int ReloadAmount;
     public int totalCapacity;
@@ -27,9 +39,86 @@ public class Weapon
     public float ReloadSpeed = 1f;
     public float SwapSpeed = 1f;
 
-    [Space]
-    public float FireRate = 1f; //초당 발사수
-    private float LastFireTime;
+
+    [Header("BurstFire")]
+    public bool BurstFireAvaliable;
+    public bool BurstActive;
+
+    public int BurstBulletsPerFire;
+    public float BurstFireRate;
+    public float BurstFireDelay = 0.15f;
+
+    [Header("Spread")]
+    public float BaseSpreadValue;
+    public float CurSpreadValue = 2;
+    public float MaxSpreadValue = 3;
+
+    public float IncreaseSpreadRate = 0.15f;
+
+    private float LastSpreadUpdateTime;
+    private float SpreadCooldown = 1;
+
+    #region Burst Methods
+    public bool BurstActivated()
+    {
+        if(WeaponType == EWeaponType.Shotgun)
+        {
+            BurstFireDelay = 0f;
+            return true;
+        }
+
+        return BurstActive;
+    }
+
+    public void ToggleBurst()
+    {
+        if (BurstFireAvaliable == false) return;
+
+        BurstActive = !BurstActive;
+
+        if(BurstActive)
+        {
+            BulletsPerFire = BurstBulletsPerFire;
+            FireRate = BurstFireRate;
+        }
+        else
+        {
+            BulletsPerFire = 1;
+            FireRate = DefaultFireRate;
+        }
+    }
+    #endregion
+
+    #region Spread
+    public Vector3 ApplySpread(Vector3 OriginDir)
+    {
+        UpdateSpread();
+        float RandomizedValue = UnityEngine.Random.Range(-CurSpreadValue, CurSpreadValue);
+
+        Quaternion spreadRot = Quaternion.Euler(RandomizedValue, RandomizedValue, RandomizedValue);
+
+
+        return spreadRot * OriginDir;
+    }
+
+    private void UpdateSpread()
+    {
+        if(Time.time > LastSpreadUpdateTime+SpreadCooldown) 
+        {
+            CurSpreadValue = BaseSpreadValue;
+        }
+        else
+        {
+            IncreaseSpread();
+        }
+        LastSpreadUpdateTime = Time.time;
+    }
+
+    public void IncreaseSpread()
+    {
+        CurSpreadValue = Mathf.Clamp(CurSpreadValue+IncreaseSpreadRate, BaseSpreadValue, MaxSpreadValue);
+    }
+    #endregion
 
     private bool HasAmmo() => CurAmmo > 0;
 
@@ -55,15 +144,7 @@ public class Weapon
         totalCapacity -= BulletToReload;
         CurAmmo = BulletToReload;
     }
-    public bool CanFire()
-    {
-        if(HasAmmo() && ReadyToFire())
-        {
-            CurAmmo--;
-            return true;
-        }
-        return false;
-    }
+    public bool CanFire() => HasAmmo() && ReadyToFire();
     private bool ReadyToFire()
     {
         if(Time.time> LastFireTime + 1 / FireRate)

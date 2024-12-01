@@ -35,6 +35,12 @@ public class WeaponController : MonoBehaviour
         {
             Shoot();
         }
+
+
+        if(Input.GetKeyUp(KeyCode.V)) 
+        {
+            CurWeapon.ToggleBurst();
+        }
     }
 
 
@@ -70,16 +76,51 @@ public class WeaponController : MonoBehaviour
     public bool GetWeaponReady() => WeaponReady;
     #endregion 
 
-    private void Shoot()    
+
+    private IEnumerator BurstFire()
+    {
+
+        SetWeaponReady(false );
+        for(int i = 1; i <= CurWeapon.BulletsPerFire; i++)
+        {
+            FireBulletOne();
+
+            yield return new WaitForSeconds(CurWeapon.BurstFireDelay);
+            if(i >= CurWeapon.BulletsPerFire)
+            {
+                SetWeaponReady(true);
+            }
+        }
+    }
+
+    private void Shoot()
     {
         if (GetWeaponReady() == false) return;
 
         if (!CurWeapon.CanFire()) return;
 
-        if(CurWeapon.FireType == EWeaponFireType.Single)
+       Player.WeaponVisual.PlayFireAnim();
+
+        if (CurWeapon.FireType == EWeaponFireType.Single)
         {
             IsFiring = false;
         }
+
+        if(CurWeapon.BurstActivated()==true)
+        {
+            StartCoroutine(BurstFire());
+            return;
+        }
+
+
+        FireBulletOne();
+
+
+    }
+
+    private void FireBulletOne()
+    {
+        CurWeapon.CurAmmo--;
 
         GameObject NewBullet = ObjectPool.instance.GetBullet();
 
@@ -88,13 +129,13 @@ public class WeaponController : MonoBehaviour
 
         Rigidbody RbNewBeullet = NewBullet.GetComponent<Rigidbody>();
 
+
+        Vector3 RnadBulletDir = CurWeapon.ApplySpread(BulletDir());
+
         RbNewBeullet.mass = ReferenceBulletSpeed / BulletSpeed;
-        RbNewBeullet.velocity = BulletDir() * BulletSpeed;
-
-
-        Player.WeaponVisual.PlayFireAnim();
-
+        RbNewBeullet.velocity = RnadBulletDir * BulletSpeed;
     }
+
     private void Reload()
     {
         SetWeaponReady(false);

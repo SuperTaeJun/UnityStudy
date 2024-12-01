@@ -514,34 +514,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurWeapon:
-    WeaponType: 0
+    WeaponType: 3
     FireType: 0
+    BulletsPerFire: 0
+    DefaultFireRate: 0
+    FireRate: 1
     CurAmmo: 0
     ReloadAmount: 0
     totalCapacity: 0
     ReloadSpeed: 0
     SwapSpeed: 0
-    FireRate: 1
+    BurstFireAvaliable: 0
+    BurstActive: 0
+    BurstBulletsPerFire: 0
+    BurstFireRate: 0
+    BurstFireDelay: 0.15
+    BaseSpreadValue: 0
+    CurSpreadValue: 2
+    MaxSpreadValue: 0
+    IncreaseSpreadRate: 0.15
   BulletPrefab: {fileID: 3616640941712745673, guid: d2a54a24495aa3741bb977ce803832c6, type: 3}
   BulletSpeed: 30
   WeaponHolderTransform: {fileID: 1637259712}
   WeaponSlots:
-  - WeaponType: 0
+  - WeaponType: 3
     FireType: 0
+    BulletsPerFire: 5
+    DefaultFireRate: 1
+    FireRate: 1
     CurAmmo: 999999
     ReloadAmount: 999999
     totalCapacity: 999999
     ReloadSpeed: 1
     SwapSpeed: 1
-    FireRate: 1
+    BurstFireAvaliable: 0
+    BurstActive: 0
+    BurstBulletsPerFire: 5
+    BurstFireRate: 1
+    BurstFireDelay: 0
+    BaseSpreadValue: 15
+    CurSpreadValue: 15
+    MaxSpreadValue: 15
+    IncreaseSpreadRate: 0.15
   - WeaponType: 2
     FireType: 1
-    CurAmmo: 99999999
-    ReloadAmount: 999999
-    totalCapacity: 999999
+    BulletsPerFire: 1
+    DefaultFireRate: 10
+    FireRate: 10
+    CurAmmo: 100
+    ReloadAmount: 50
+    totalCapacity: 6000
     ReloadSpeed: 2
     SwapSpeed: 2
-    FireRate: 8
+    BurstFireAvaliable: 1
+    BurstActive: 0
+    BurstBulletsPerFire: 3
+    BurstFireRate: 1.5
+    BurstFireDelay: 0.15
+    BaseSpreadValue: 0
+    CurSpreadValue: 0
+    MaxSpreadValue: 3
+    IncreaseSpreadRate: 0.15
 --- !u!114 &90972087
 MonoBehaviour:
   m_ObjectHideFlags: 0
