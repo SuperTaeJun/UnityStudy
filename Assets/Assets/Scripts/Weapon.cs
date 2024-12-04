@@ -38,7 +38,8 @@ public class Weapon
 
     public float ReloadSpeed = 1f;
     public float SwapSpeed = 1f;
-
+    [Range(2, 12)]
+    public float WeaponRange = 4f;
 
     [Header("BurstFire")]
     public bool BurstFireAvaliable;

@@ -129,6 +129,9 @@ public class WeaponController : MonoBehaviour
 
         Rigidbody RbNewBeullet = NewBullet.GetComponent<Rigidbody>();
 
+        Bullet BulletScript = NewBullet.GetComponent<Bullet>();
+        BulletScript.BulletSetup(CurWeapon.WeaponRange);
+
 
         Vector3 RnadBulletDir = CurWeapon.ApplySpread(BulletDir());
 

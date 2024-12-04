@@ -524,6 +524,7 @@ MonoBehaviour:
     totalCapacity: 0
     ReloadSpeed: 0
     SwapSpeed: 0
+    WeaponRange: 6
     BurstFireAvaliable: 0
     BurstActive: 0
     BurstBulletsPerFire: 0
@@ -547,6 +548,7 @@ MonoBehaviour:
     totalCapacity: 999999
     ReloadSpeed: 1
     SwapSpeed: 1
+    WeaponRange: 2.5
     BurstFireAvaliable: 0
     BurstActive: 0
     BurstBulletsPerFire: 5
@@ -566,6 +568,7 @@ MonoBehaviour:
     totalCapacity: 6000
     ReloadSpeed: 2
     SwapSpeed: 2
+    WeaponRange: 4
     BurstFireAvaliable: 1
     BurstActive: 0
     BurstBulletsPerFire: 3

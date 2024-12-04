@@ -62,11 +62,11 @@ public class PlayerAim : MonoBehaviour
         Transform MuzzlePoint = player.WeaponController.GetMuzzlePoint();
 
         Vector3 LaserDir = player.WeaponController.BulletDir();
-        float WeaponDistance = 4f;
+        float WeaponRange = player.WeaponController.GetCurWeapon().WeaponRange;
 
-        Vector3 EndPoint = MuzzlePoint.position + (LaserDir * WeaponDistance);
+        Vector3 EndPoint = MuzzlePoint.position + (LaserDir * WeaponRange);
 
-        if (Physics.Raycast(MuzzlePoint.position, LaserDir, out RaycastHit hit, WeaponDistance))
+        if (Physics.Raycast(MuzzlePoint.position, LaserDir, out RaycastHit hit, WeaponRange))
         {
             EndPoint = hit.point;
             TipLenght = 0f;

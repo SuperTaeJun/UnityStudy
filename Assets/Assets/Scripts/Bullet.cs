@@ -1,11 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
 
     [SerializeField] private GameObject BulletImpactFx;
+
+    private Vector3 StartPos;
+    private float Range;
+
+    public void BulletSetup(float WeaponRange)
+    {
+        StartPos = transform.position;
+        Range= WeaponRange;
+
+    }
+
+    private void Update()
+    {
+        if (Vector3.Distance(StartPos, transform.position) > Range)
+            ObjectPool.instance.ReturnBullet(gameObject);
+    }
 
     private Rigidbody rb => GetComponent<Rigidbody>();
 
