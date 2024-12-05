@@ -5,26 +5,70 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
+    private Rigidbody Rigidbody;
+    private BoxCollider BoxCollition;
+    private MeshRenderer MeshRenderer;
+    private TrailRenderer TrailRenderer;
     [SerializeField] private GameObject BulletImpactFx;
 
     private Vector3 StartPos;
     private float Range;
+    private bool BulletDisabled;
+
+
+    private void Awake()
+    {
+        BoxCollition = GetComponent<BoxCollider>();
+        MeshRenderer = GetComponent<MeshRenderer>();
+        TrailRenderer = GetComponent<TrailRenderer>();
+        Rigidbody = GetComponent<Rigidbody>();
+    }
 
     public void BulletSetup(float WeaponRange)
     {
+        BulletDisabled = false;
+        MeshRenderer.enabled = true;
+        BoxCollition.enabled = true;
+
+        TrailRenderer.time = 0.25f;
         StartPos = transform.position;
-        Range= WeaponRange;
+        Range= WeaponRange+ 0.5f;
 
     }
 
     private void Update()
     {
-        if (Vector3.Distance(StartPos, transform.position) > Range)
-            ObjectPool.instance.ReturnBullet(gameObject);
+        FadeTrail();
+
+        CheckBulletDisable();
+
+        CheckRetrunBullet();
     }
 
-    private Rigidbody rb => GetComponent<Rigidbody>();
+    private void CheckRetrunBullet()
+    {
+        if (TrailRenderer.time < 0) ObjectPool.instance.ReturnBullet(gameObject);
+    }
+
+    private void CheckBulletDisable()
+    {
+        if (Vector3.Distance(StartPos, transform.position) > Range && BulletDisabled == false)
+        {
+            MeshRenderer.enabled = false;
+            BoxCollition.enabled = false;
+            BulletDisabled = true;
+        }
+    }
+
+    private void FadeTrail()
+    {
+        if (Vector3.Distance(StartPos, transform.position) > Range - 1.5f)
+        {
+            TrailRenderer.time -= 2 * Time.deltaTime;
+        }
+    }
+
+    private Rigidbody rb => Rigidbody;
 
     private void OnCollisionEnter(Collision collision)
     {
