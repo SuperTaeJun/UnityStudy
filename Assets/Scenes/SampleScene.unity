@@ -236,7 +236,7 @@ Transform:
   m_GameObject: {fileID: 31520033}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: 0.002, y: 1, z: 1.201}
+  m_LocalPosition: {x: 0.002, y: -1.5894194, z: 2.696002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -525,6 +525,7 @@ MonoBehaviour:
     ReloadSpeed: 0
     SwapSpeed: 0
     WeaponRange: 6
+    CameraRange: 3
     BurstFireAvaliable: 0
     BurstActive: 0
     BurstBulletsPerFire: 0
@@ -549,6 +550,7 @@ MonoBehaviour:
     ReloadSpeed: 1
     SwapSpeed: 1
     WeaponRange: 2.5
+    CameraRange: 4
     BurstFireAvaliable: 0
     BurstActive: 0
     BurstBulletsPerFire: 5
@@ -569,6 +571,70 @@ MonoBehaviour:
     ReloadSpeed: 2
     SwapSpeed: 2
     WeaponRange: 4
+    CameraRange: 6
+    BurstFireAvaliable: 1
+    BurstActive: 0
+    BurstBulletsPerFire: 3
+    BurstFireRate: 1.5
+    BurstFireDelay: 0.15
+    BaseSpreadValue: 0
+    CurSpreadValue: 0
+    MaxSpreadValue: 3
+    IncreaseSpreadRate: 0.15
+  - WeaponType: 1
+    FireType: 1
+    BulletsPerFire: 1
+    DefaultFireRate: 10
+    FireRate: 10
+    CurAmmo: 6
+    ReloadAmount: 6
+    totalCapacity: 6000
+    ReloadSpeed: 2
+    SwapSpeed: 2
+    WeaponRange: 4
+    CameraRange: 6
+    BurstFireAvaliable: 1
+    BurstActive: 0
+    BurstBulletsPerFire: 3
+    BurstFireRate: 1.5
+    BurstFireDelay: 0.15
+    BaseSpreadValue: 0
+    CurSpreadValue: 0
+    MaxSpreadValue: 3
+    IncreaseSpreadRate: 0.15
+  - WeaponType: 0
+    FireType: 1
+    BulletsPerFire: 1
+    DefaultFireRate: 10
+    FireRate: 10
+    CurAmmo: 6
+    ReloadAmount: 6
+    totalCapacity: 6000
+    ReloadSpeed: 2
+    SwapSpeed: 2
+    WeaponRange: 4
+    CameraRange: 6
+    BurstFireAvaliable: 1
+    BurstActive: 0
+    BurstBulletsPerFire: 3
+    BurstFireRate: 1.5
+    BurstFireDelay: 0.15
+    BaseSpreadValue: 0
+    CurSpreadValue: 0
+    MaxSpreadValue: 3
+    IncreaseSpreadRate: 0.15
+  - WeaponType: 4
+    FireType: 1
+    BulletsPerFire: 1
+    DefaultFireRate: 10
+    FireRate: 10
+    CurAmmo: 6
+    ReloadAmount: 6
+    totalCapacity: 6000
+    ReloadSpeed: 2
+    SwapSpeed: 2
+    WeaponRange: 4
+    CameraRange: 6
     BurstFireAvaliable: 1
     BurstActive: 0
     BurstBulletsPerFire: 3
@@ -627,7 +693,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 253344323}
-  - component: {fileID: 253344324}
   m_Layer: 8
   m_Name: LeftHand_TargetTransform
   m_TagString: Untagged
@@ -650,18 +715,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 289698965}
   m_LocalEulerAnglesHint: {x: 6.73, y: -85.433, z: 55.089}
---- !u!114 &253344324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253344322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fa57a233905d54ba902ad061131c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &261425792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,7 +1131,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 7
+  m_CameraDistance: 4.009996
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -1123,45 +1176,49 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackupShotgun
       objectReference: {fileID: 0}
+    - target: {fileID: 1822604030504732149, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.105
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.133
+      value: -0.094
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.054
+      value: -0.067
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70086956
+      value: 0.46766666
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.6731342
+      value: -0.03026734
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.15643461
+      value: -0.86944735
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.17663635
+      value: 0.15631081
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 87.219
+      value: 14.093
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -337.558
+      value: -481.982
       objectReference: {fileID: 0}
     - target: {fileID: 6006435036143605210, guid: 219f8736de9150f4c8fc1a2be314c5fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 409.695
+      value: 371.83
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1300,7 +1357,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 714768916}
-  - component: {fileID: 714768917}
   m_Layer: 8
   m_Name: LeftHand_TargetTransform
   m_TagString: Untagged
@@ -1323,18 +1379,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 371557231}
   m_LocalEulerAnglesHint: {x: 10.532, y: -83.048, z: 70.498}
---- !u!114 &714768917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714768915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fa57a233905d54ba902ad061131c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &832674022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1488,7 +1532,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: 0.002, y: 1, z: 1.201}
+  m_LocalPosition: {x: 0.002, y: -1.5894194, z: 2.696002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1826,7 +1870,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1057993333}
-  - component: {fileID: 1057993334}
   m_Layer: 8
   m_Name: LeftHand_TargetTransform
   m_TagString: Untagged
@@ -1849,18 +1892,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1903793986}
   m_LocalEulerAnglesHint: {x: 6.73, y: -85.433, z: 55.089}
---- !u!114 &1057993334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057993332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fa57a233905d54ba902ad061131c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1063265788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2419,6 +2450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1332706023}
+  - component: {fileID: 1332706024}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2443,6 +2475,20 @@ Transform:
   - {fileID: 963194228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1332706024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332706022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 218f72f7dba33f74093dd87d3b48a2bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanChangeCameraDistance: 0
+  DistanceChangeRate: 0.25
 --- !u!1001 &1559280390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2498,6 +2544,10 @@ PrefabInstance:
     - target: {fileID: 5965690967949384312, guid: 65f4b03d01ac7f74585b1e39dbc76617, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 346.508
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057255901838525042, guid: 65f4b03d01ac7f74585b1e39dbc76617, type: 3}
+      propertyPath: HangType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2848,6 +2898,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackupRevolver
       objectReference: {fileID: 0}
+    - target: {fileID: 3207029983775125342, guid: fa9ca903fb4952e49bba4a4e26e1406a, type: 3}
+      propertyPath: HangType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3013,7 +3067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponType: 3
-  SwapType: 1
+  SwapType: 0
   HoldType: 2
   MuzzlePoint: {fileID: 1167758508}
   HoldPoint: {fileID: 2145259692}
@@ -3268,6 +3322,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5495161636907970720, guid: 15a4dcf01000cd54792b981baed7c22a, type: 3}
+      propertyPath: HangType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7979403308070685416, guid: 15a4dcf01000cd54792b981baed7c22a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.105
@@ -3415,6 +3473,10 @@ PrefabInstance:
     - target: {fileID: 2468429839081639984, guid: 35da275b3e2224243919096ece0b39c3, type: 3}
       propertyPath: m_Name
       value: BackupSniper
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433789398259546914, guid: 35da275b3e2224243919096ece0b39c3, type: 3}
+      propertyPath: HangType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7486889429728258212, guid: 35da275b3e2224243919096ece0b39c3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3676,7 +3738,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2105990189}
-  - component: {fileID: 2105990190}
   m_Layer: 8
   m_Name: LeftHand_TargetTransform
   m_TagString: Untagged
@@ -3699,18 +3760,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1135328117}
   m_LocalEulerAnglesHint: {x: -19.549, y: -235.922, z: -81.409}
---- !u!114 &2105990190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105990188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fa57a233905d54ba902ad061131c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2127304278
 GameObject:
   m_ObjectHideFlags: 0
@@ -3751,7 +3800,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2145259692}
-  - component: {fileID: 2145259693}
   m_Layer: 8
   m_Name: LeftHand_TargetTransform
   m_TagString: Untagged
@@ -3774,18 +3822,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1811539308}
   m_LocalEulerAnglesHint: {x: 6.73, y: -85.433, z: 55.089}
---- !u!114 &2145259693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2145259691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fa57a233905d54ba902ad061131c2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8171816174541291
 GameObject:
   m_ObjectHideFlags: 0

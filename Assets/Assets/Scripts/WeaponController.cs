@@ -36,11 +36,6 @@ public class WeaponController : MonoBehaviour
             Shoot();
         }
 
-
-        if(Input.GetKeyUp(KeyCode.V)) 
-        {
-            CurWeapon.ToggleBurst();
-        }
     }
 
 
@@ -49,11 +44,14 @@ public class WeaponController : MonoBehaviour
 
     private void EquipWeapon(int Index)
     {
+        if (Index >= WeaponSlots.Count) return;
+
         SetWeaponReady(false);
 
         CurWeapon = WeaponSlots[Index];
-
         Player.WeaponVisual.PlayWeaponEquipAnim();
+
+        CameraManager.instance.ChangeCameraRange(CurWeapon.CameraRange);
     }
 
     public void PickupWeapon(Weapon NewWeapon)
@@ -160,21 +158,17 @@ public class WeaponController : MonoBehaviour
     }
 
     public bool HasOneWeapon() => WeaponSlots.Count <= 1;
-
-    public Transform GetMuzzlePoint() => Player.WeaponVisual.CurWeaponModel().MuzzlePoint;
-    public Weapon GetCurWeapon() => CurWeapon;
-
-    public Weapon GetBackupWeapon()
+    public Weapon HasWeaponInSlot(EWeaponType weaponType)
     {
         foreach(Weapon weapon in WeaponSlots)
         {
-            if(weapon != CurWeapon)
-            { 
-                return weapon; 
-            }
+            if(weapon.WeaponType == weaponType) return weapon;
         }
         return null;
     }
+    public Transform GetMuzzlePoint() => Player.WeaponVisual.CurWeaponModel().MuzzlePoint;
+    public Weapon GetCurWeapon() => CurWeapon;
+
     #region InputEvent
     private void AssignInputEvent()
     {
@@ -185,6 +179,9 @@ public class WeaponController : MonoBehaviour
 
         Controls.Character.Slot1.performed += context => EquipWeapon(0);
         Controls.Character.Slot2.performed += context => EquipWeapon(1);
+        Controls.Character.Slot3.performed += context => EquipWeapon(2);
+        Controls.Character.Slot4.performed += context => EquipWeapon(3);
+        Controls.Character.Slot5.performed += context => EquipWeapon(4);
 
         Controls.Character.DropCurWeapon.performed += context => DropWeapon();
         Controls.Character.Reload.performed += context =>
@@ -194,6 +191,14 @@ public class WeaponController : MonoBehaviour
                 Reload();
             }
         };
+
+        Controls.Character.TogleWeaponMode.performed += context => CurWeapon.ToggleBurst();
+
+    }
+
+    private void TogleWeaponMode_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        throw new System.NotImplementedException();
     }
 
     #endregion

@@ -125,13 +125,31 @@ public class PlayerWeaponVisual : MonoBehaviour
 
     public void SwitchOnBackupWeaponModels() 
     {
-        EWeaponType weaponType = Player.WeaponController.GetBackupWeapon().WeaponType;
+        SwitchOffBackupWeaponModels();
 
-        foreach(BackupWeaponModel backupModel in BackupWeaponModels)
+        BackupWeaponModel LowHand = null;
+        BackupWeaponModel BackHand = null;
+        BackupWeaponModel SideHand = null;
+
+
+        foreach (BackupWeaponModel backupModel in BackupWeaponModels)
         {
-            if(backupModel.WeaponType == weaponType)
-                backupModel.gameObject.SetActive(true);
+            if (backupModel.WeaponType == Player.WeaponController.GetCurWeapon().WeaponType)
+                continue;
+
+            if(Player.WeaponController.HasWeaponInSlot(backupModel.WeaponType) != null)
+            {
+                if(backupModel.HangTypeIs(EHangType.LowBackHang))
+                    LowHand = backupModel;
+                if (backupModel.HangTypeIs(EHangType.BackHang))
+                    BackHand = backupModel;
+                if (backupModel.HangTypeIs(EHangType.SideHang))
+                    SideHand = backupModel;
+            }
         }
+        LowHand?.Activate(true);
+        BackHand?.Activate(true);
+        SideHand?.Activate(true);
     }
     public void SwitchOffWeaponModels()
     {
@@ -145,7 +163,7 @@ public class PlayerWeaponVisual : MonoBehaviour
     {
         foreach(BackupWeaponModel backupModel in BackupWeaponModels)
         {
-            backupModel.gameObject.SetActive(false);
+            backupModel.Activate(false);
         }
     }
     private void AttachLeftHand()
