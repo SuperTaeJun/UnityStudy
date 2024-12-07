@@ -513,137 +513,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dd0a506b238204a9668a55c598d313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultWeaponData: {fileID: 11400000, guid: 8108a2c7b0bfed6408a2a47d1e8071c9, type: 2}
   CurWeapon:
     WeaponType: 3
     FireType: 0
-    BulletsPerFire: 0
-    DefaultFireRate: 0
-    FireRate: 1
+    BurstActive: 0
     CurAmmo: 0
     ReloadAmount: 0
     totalCapacity: 0
-    ReloadSpeed: 0
-    SwapSpeed: 0
-    WeaponRange: 6
-    CameraRange: 3
-    BurstFireAvaliable: 0
-    BurstActive: 0
-    BurstBulletsPerFire: 0
-    BurstFireRate: 0
-    BurstFireDelay: 0.15
-    BaseSpreadValue: 0
-    CurSpreadValue: 2
-    MaxSpreadValue: 0
-    IncreaseSpreadRate: 0.15
   BulletPrefab: {fileID: 3616640941712745673, guid: d2a54a24495aa3741bb977ce803832c6, type: 3}
   BulletSpeed: 30
   WeaponHolderTransform: {fileID: 1637259712}
   WeaponSlots:
   - WeaponType: 3
     FireType: 0
-    BulletsPerFire: 5
-    DefaultFireRate: 1
-    FireRate: 1
+    BurstActive: 0
     CurAmmo: 999999
     ReloadAmount: 999999
     totalCapacity: 999999
-    ReloadSpeed: 1
-    SwapSpeed: 1
-    WeaponRange: 2.5
-    CameraRange: 4
-    BurstFireAvaliable: 0
-    BurstActive: 0
-    BurstBulletsPerFire: 5
-    BurstFireRate: 1
-    BurstFireDelay: 0
-    BaseSpreadValue: 15
-    CurSpreadValue: 15
-    MaxSpreadValue: 15
-    IncreaseSpreadRate: 0.15
-  - WeaponType: 2
-    FireType: 1
-    BulletsPerFire: 1
-    DefaultFireRate: 10
-    FireRate: 10
-    CurAmmo: 100
-    ReloadAmount: 50
-    totalCapacity: 6000
-    ReloadSpeed: 2
-    SwapSpeed: 2
-    WeaponRange: 4
-    CameraRange: 6
-    BurstFireAvaliable: 1
-    BurstActive: 0
-    BurstBulletsPerFire: 3
-    BurstFireRate: 1.5
-    BurstFireDelay: 0.15
-    BaseSpreadValue: 0
-    CurSpreadValue: 0
-    MaxSpreadValue: 3
-    IncreaseSpreadRate: 0.15
-  - WeaponType: 1
-    FireType: 1
-    BulletsPerFire: 1
-    DefaultFireRate: 10
-    FireRate: 10
-    CurAmmo: 6
-    ReloadAmount: 6
-    totalCapacity: 6000
-    ReloadSpeed: 2
-    SwapSpeed: 2
-    WeaponRange: 4
-    CameraRange: 6
-    BurstFireAvaliable: 1
-    BurstActive: 0
-    BurstBulletsPerFire: 3
-    BurstFireRate: 1.5
-    BurstFireDelay: 0.15
-    BaseSpreadValue: 0
-    CurSpreadValue: 0
-    MaxSpreadValue: 3
-    IncreaseSpreadRate: 0.15
-  - WeaponType: 0
-    FireType: 1
-    BulletsPerFire: 1
-    DefaultFireRate: 10
-    FireRate: 10
-    CurAmmo: 6
-    ReloadAmount: 6
-    totalCapacity: 6000
-    ReloadSpeed: 2
-    SwapSpeed: 2
-    WeaponRange: 4
-    CameraRange: 6
-    BurstFireAvaliable: 1
-    BurstActive: 0
-    BurstBulletsPerFire: 3
-    BurstFireRate: 1.5
-    BurstFireDelay: 0.15
-    BaseSpreadValue: 0
-    CurSpreadValue: 0
-    MaxSpreadValue: 3
-    IncreaseSpreadRate: 0.15
-  - WeaponType: 4
-    FireType: 1
-    BulletsPerFire: 1
-    DefaultFireRate: 10
-    FireRate: 10
-    CurAmmo: 6
-    ReloadAmount: 6
-    totalCapacity: 6000
-    ReloadSpeed: 2
-    SwapSpeed: 2
-    WeaponRange: 4
-    CameraRange: 6
-    BurstFireAvaliable: 1
-    BurstActive: 0
-    BurstBulletsPerFire: 3
-    BurstFireRate: 1.5
-    BurstFireDelay: 0.15
-    BaseSpreadValue: 0
-    CurSpreadValue: 0
-    MaxSpreadValue: 3
-    IncreaseSpreadRate: 0.15
 --- !u!114 &90972087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2340,6 +2227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PickupRifle
       objectReference: {fileID: 0}
+    - target: {fileID: 4715382906868444863, guid: 5e199ff7eb1089c43916e7ab28556aa2, type: 3}
+      propertyPath: WeaponData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0eacc17e1c208654bb33f2474ba73305, type: 2}
     - target: {fileID: 7385756813075793824, guid: 5e199ff7eb1089c43916e7ab28556aa2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.04849577
@@ -3236,7 +3127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96911af9b9e1ee4b8945ef54414b2e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 3616640941712745673, guid: d2a54a24495aa3741bb977ce803832c6, type: 3}
   BulletPoolSize: 1
 --- !u!4 &1842422786
 Transform:

@@ -8,7 +8,7 @@ public class WeaponController : MonoBehaviour
 
     private Player Player;
 
-
+    [SerializeField] private WeaponData DefaultWeaponData;
     [SerializeField] private Weapon CurWeapon;
     private bool WeaponReady;
     private bool IsFiring;
@@ -40,8 +40,12 @@ public class WeaponController : MonoBehaviour
 
 
     #region Slots-Pickup,Drop,Equip
-    private void StartWeapon() => EquipWeapon(0);
+    private void StartWeapon()
+    {
+        WeaponSlots[0] = new Weapon(DefaultWeaponData);
 
+        EquipWeapon(0);
+    }
     private void EquipWeapon(int Index)
     {
         if (Index >= WeaponSlots.Count) return;
@@ -54,11 +58,11 @@ public class WeaponController : MonoBehaviour
         CameraManager.instance.ChangeCameraRange(CurWeapon.CameraRange);
     }
 
-    public void PickupWeapon(Weapon NewWeapon)
+    public void PickupWeapon(WeaponData NewWeaponData)
     {
         if (WeaponSlots.Count >= MaxSlotCnt) return;
 
-        WeaponSlots.Add(NewWeapon); 
+        WeaponSlots.Add(new Weapon(NewWeaponData)); 
         Player.WeaponVisual.SwitchOnBackupWeaponModels();
     }
 
@@ -120,7 +124,7 @@ public class WeaponController : MonoBehaviour
     {
         CurWeapon.CurAmmo--;
 
-        GameObject NewBullet = ObjectPool.instance.GetBullet();
+        GameObject NewBullet = ObjectPool.instance.GetObject(BulletPrefab);
 
         NewBullet.transform.position = GetMuzzlePoint().position;
         NewBullet.transform.rotation = Quaternion.LookRotation(GetMuzzlePoint().forward);

@@ -21,45 +21,69 @@ public enum EWeaponFireType
 public class Weapon
 {
     public EWeaponType WeaponType;
-
-    [Header("Shooting Spesifics")]
-
     public EWeaponFireType FireType;
-    public int BulletsPerFire;
-    public float DefaultFireRate;
-    public float FireRate = 1f; //초당 발사수
+
+    public int BulletsPerFire { get; private set; }
+
+    private float DefaultFireRate;
+    private float FireRate = 1f; //초당 발사수
     private float LastFireTime;
 
-    [Space]
+    [Header("BurstFire")]
+    private bool BurstFireAvaliable;
+    public bool BurstActive;
+    private int BurstBulletsPerFire;
+    private float BurstFireRate;
+    public float BurstFireDelay { get; private set; }
+
     [Header("Magazine Details")]
     public int CurAmmo;
     public int ReloadAmount;
     public int totalCapacity;
 
-    public float ReloadSpeed = 1f;
-    public float SwapSpeed = 1f;
-    [Range(2, 12)]
-    public float WeaponRange = 4f;
-    [Range(3, 8)]
-    public float CameraRange = 3f;
-
-    [Header("BurstFire")]
-    public bool BurstFireAvaliable;
-    public bool BurstActive;
-
-    public int BurstBulletsPerFire;
-    public float BurstFireRate;
-    public float BurstFireDelay = 0.15f;
-
+    public float ReloadSpeed {  get; private set; }
+    public float SwapSpeed { get; private set; }
+    public float WeaponRange { get; private set; }
+    public float CameraRange { get; private set; }
     [Header("Spread")]
-    public float BaseSpreadValue;
-    public float CurSpreadValue = 2;
-    public float MaxSpreadValue = 3;
+    private float BaseSpreadValue;
+    private float CurSpreadValue = 2;
+    private float MaxSpreadValue = 3;
 
-    public float IncreaseSpreadRate = 0.15f;
+    private float IncreaseSpreadRate = 0.15f;
 
     private float LastSpreadUpdateTime;
     private float SpreadCooldown = 1;
+
+    public Weapon(WeaponData weaponData)
+    {
+        WeaponType = weaponData.WeaponType;
+        FireType = weaponData.WeaponFireType;
+
+        CurAmmo = weaponData.CurAmmo;
+        ReloadAmount = weaponData.ReloadAmount;
+        totalCapacity = weaponData.totalCapacity;
+
+        BulletsPerFire = weaponData.BulletsPerFire;
+        FireRate = weaponData.FireRate;
+        DefaultFireRate = FireRate;
+
+        BaseSpreadValue = weaponData.BaseSpread;
+        MaxSpreadValue = weaponData.MaxSpread;
+        IncreaseSpreadRate = weaponData.SpreadIncreaseRate;
+
+        ReloadSpeed = weaponData.ReloadSpeed;
+        SwapSpeed = weaponData.SwapSpeed;
+        WeaponRange = weaponData.WeaponRange;
+        CameraRange = weaponData.CameraRange;
+
+        BurstFireAvaliable = weaponData.BurstAvailable;
+        BurstActive = weaponData.BurstActive;
+        BurstBulletsPerFire = weaponData.BurstBulletPerFire;
+        BurstFireDelay = weaponData.BurstFireDelay;
+        BurstFireRate = weaponData.BurstFireRate;
+
+    }
 
     #region Burst Methods
     public bool BurstActivated()

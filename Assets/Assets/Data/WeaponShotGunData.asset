@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bb59d8d72f1d84ebc1fd4b20f96be7, type: 3}
+  m_Name: WeaponShotGunData
+  m_EditorClassIdentifier: 
+  WeaponName: ShotGun
+  WeaponFireType: 0
+  CurAmmo: 25
+  ReloadAmount: 25
+  totalCapacity: 9999999
+  BulletsPerFire: 5
+  FireRate: 2
+  BurstAvailable: 0
+  BurstActive: 0
+  BurstBulletPerFire: 0
+  BurstFireDelay: 0.1
+  BurstFireRate: 0
+  BaseSpread: 15
+  MaxSpread: 15
+  SpreadIncreaseRate: 0.15
+  WeaponType: 3
+  ReloadSpeed: 1
+  SwapSpeed: 1
+  WeaponRange: 4.5
+  CameraRange: 6

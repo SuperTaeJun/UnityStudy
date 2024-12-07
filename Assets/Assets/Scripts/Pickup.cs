@@ -5,9 +5,9 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
 
-    [SerializeField] private Weapon Weapon;
+    [SerializeField] private WeaponData WeaponData;
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<WeaponController>()?.PickupWeapon(Weapon);
+        other.GetComponent<WeaponController>()?.PickupWeapon(WeaponData);
     }
 }
