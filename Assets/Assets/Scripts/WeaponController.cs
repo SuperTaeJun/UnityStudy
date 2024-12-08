@@ -19,7 +19,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private Transform WeaponHolderTransform;
 
     [Header("Inventory")]
-    int MaxSlotCnt = 2;
+    [SerializeField] int MaxSlotCnt = 2;
     [SerializeField] private List<Weapon> WeaponSlots;
 
     private void Start()
@@ -60,9 +60,24 @@ public class WeaponController : MonoBehaviour
 
     public void PickupWeapon(WeaponData NewWeaponData)
     {
-        if (WeaponSlots.Count >= MaxSlotCnt) return;
+        Weapon NewWeapon = new Weapon(NewWeaponData);
 
-        WeaponSlots.Add(new Weapon(NewWeaponData)); 
+        if(HasWeaponInSlot(NewWeapon.WeaponType)!= null)
+        {
+            HasWeaponInSlot(NewWeapon.WeaponType).totalCapacity += NewWeapon.CurAmmo;
+            return;
+        }
+
+        if (WeaponSlots.Count >= MaxSlotCnt && NewWeapon.WeaponType != CurWeapon.WeaponType)
+        {
+            int WeaponIndex = WeaponSlots.IndexOf(CurWeapon);
+
+            Player.WeaponVisual.SwitchOffWeaponModels();
+            WeaponSlots[WeaponIndex] = NewWeapon;
+            EquipWeapon(WeaponIndex);
+            return;
+        }
+        WeaponSlots.Add(NewWeapon); 
         Player.WeaponVisual.SwitchOnBackupWeaponModels();
     }
 

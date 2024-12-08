@@ -134,6 +134,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4d408ba-05a9-4d1c-80c2-8772fe487e09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,6 +321,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""TogleWeaponMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d84de0a4-7130-4251-a7c1-cd6a254fdcc8"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -332,6 +352,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Character_Slot4 = m_Character.FindAction("Slot4", throwIfNotFound: true);
         m_Character_Slot5 = m_Character.FindAction("Slot5", throwIfNotFound: true);
         m_Character_TogleWeaponMode = m_Character.FindAction("TogleWeaponMode", throwIfNotFound: true);
+        m_Character_Interact = m_Character.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +426,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_Slot4;
     private readonly InputAction m_Character_Slot5;
     private readonly InputAction m_Character_TogleWeaponMode;
+    private readonly InputAction m_Character_Interact;
     public struct CharacterActions
     {
         private @PlayerControlls m_Wrapper;
@@ -421,6 +443,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @Slot4 => m_Wrapper.m_Character_Slot4;
         public InputAction @Slot5 => m_Wrapper.m_Character_Slot5;
         public InputAction @TogleWeaponMode => m_Wrapper.m_Character_TogleWeaponMode;
+        public InputAction @Interact => m_Wrapper.m_Character_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -466,6 +489,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @TogleWeaponMode.started += instance.OnTogleWeaponMode;
             @TogleWeaponMode.performed += instance.OnTogleWeaponMode;
             @TogleWeaponMode.canceled += instance.OnTogleWeaponMode;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(ICharacterActions instance)
@@ -506,6 +532,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @TogleWeaponMode.started -= instance.OnTogleWeaponMode;
             @TogleWeaponMode.performed -= instance.OnTogleWeaponMode;
             @TogleWeaponMode.canceled -= instance.OnTogleWeaponMode;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(ICharacterActions instance)
@@ -537,5 +566,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnSlot4(InputAction.CallbackContext context);
         void OnSlot5(InputAction.CallbackContext context);
         void OnTogleWeaponMode(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

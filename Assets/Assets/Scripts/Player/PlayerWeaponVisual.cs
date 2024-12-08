@@ -48,7 +48,6 @@ public class PlayerWeaponVisual : MonoBehaviour
         {
             if (WeaponModels[i].WeaponType == weaponType)
             {
-                Debug.Log(weaponType);
                 WeaponModel = WeaponModels[i];
             }
         }
@@ -70,8 +69,6 @@ public class PlayerWeaponVisual : MonoBehaviour
         ESwapType swapType = CurWeaponModel().SwapType;
 
         float EquipAnimSpeed = Player.WeaponController.GetCurWeapon().SwapSpeed;
-
-        Debug.Log(swapType);
 
         LeftHandIk.weight = 0; 
         PauseRig();
