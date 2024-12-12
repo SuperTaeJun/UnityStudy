@@ -5,20 +5,22 @@ using UnityEngine.UIElements.Experimental;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public List<Interactable> interactables;
+    private List<Interactable> interactables = new List<Interactable>();
 
     private Interactable ClosestInteractable;
+    
 
-
-    public void Start()
+    private void Start()
     {
         Player player = GetComponent<Player>();
         player.Controls.Character.Interact.performed += context => InteractWithClosest();
     }
 
-    public void InteractWithClosest()
+    private void InteractWithClosest()
     {
         ClosestInteractable?.Interact();
+        interactables.Remove(ClosestInteractable);
+        UpdateClosest();
     }
 
     public void UpdateClosest()
@@ -43,5 +45,8 @@ public class PlayerInteract : MonoBehaviour
 
         ClosestInteractable?.HighlightActive(true);
     }
+
+
+    public List<Interactable> GetInteractables() => interactables;
 
 }

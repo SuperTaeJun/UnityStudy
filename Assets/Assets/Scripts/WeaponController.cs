@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -21,7 +22,7 @@ public class WeaponController : MonoBehaviour
     [Header("Inventory")]
     [SerializeField] int MaxSlotCnt = 2;
     [SerializeField] private List<Weapon> WeaponSlots;
-
+    [SerializeField] private GameObject WeaponPickupPrefab;
     private void Start()
     {
         Player = GetComponent<Player>();
@@ -58,9 +59,8 @@ public class WeaponController : MonoBehaviour
         CameraManager.instance.ChangeCameraRange(CurWeapon.CameraRange);
     }
 
-    public void PickupWeapon(WeaponData NewWeaponData)
+    public void PickupWeapon(Weapon NewWeapon)
     {
-        Weapon NewWeapon = new Weapon(NewWeaponData);
 
         if(HasWeaponInSlot(NewWeapon.WeaponType)!= null)
         {
@@ -74,6 +74,7 @@ public class WeaponController : MonoBehaviour
 
             Player.WeaponVisual.SwitchOffWeaponModels();
             WeaponSlots[WeaponIndex] = NewWeapon;
+            CreateWeaponOnGround();
             EquipWeapon(WeaponIndex);
             return;
         }
@@ -81,12 +82,20 @@ public class WeaponController : MonoBehaviour
         Player.WeaponVisual.SwitchOnBackupWeaponModels();
     }
 
-    private void DropWeapon() 
+    private void DropWeapon()
     {
         if (HasOneWeapon()) return;
 
+        CreateWeaponOnGround();
+
         WeaponSlots.Remove(CurWeapon);
         EquipWeapon(0);
+    }
+
+    private void CreateWeaponOnGround()
+    {
+        GameObject DropWeapon = ObjectPool.instance.GetObject(WeaponPickupPrefab);
+        DropWeapon.GetComponent<PickupWeapon>()?.SetupPickupWeapon(CurWeapon, transform);
     }
 
     public void SetWeaponReady(bool IsReady) => WeaponReady = IsReady;

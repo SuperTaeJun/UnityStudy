@@ -9,11 +9,20 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private int BulletPoolSize = 10;
 
     private Dictionary<GameObject, Queue<GameObject>> PoolDic = new Dictionary<GameObject, Queue<GameObject>>();
+
+    [Header("Init")]
+    [SerializeField] private GameObject WeaponPickup;
+
     private void Awake()
     {
         if (instance == null) { instance = this; }
         else Destroy(gameObject);
 
+    }
+
+    private void Start()
+    {
+        InitPool(WeaponPickup);
     }
 
     public GameObject GetObject(GameObject Prefab)

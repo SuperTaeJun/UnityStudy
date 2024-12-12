@@ -6,12 +6,28 @@ public class PickupWeapon : Interactable
 {
     private WeaponController WeaponController;
     [SerializeField] private WeaponData WeaponData;
+    [SerializeField] private Weapon Weapon;
+
     [SerializeField] private BackupWeaponModel[] backupWeaponModels;
 
+    private bool OldWeapon; 
 
     private void Start()
     {
+        if(!OldWeapon)
+            Weapon = new Weapon(WeaponData);
+
         UpdateGameObject();
+    }
+
+    public void SetupPickupWeapon(Weapon weapon, Transform transform)
+    {
+        OldWeapon = true;
+
+        this.Weapon = weapon;
+        WeaponData = weapon.WeaponData;
+
+        this.transform.position = transform.position + new Vector3 (0f, .75f, 0f);
     }
 
     [ContextMenu("UpdateWeapon")]
@@ -36,7 +52,9 @@ public class PickupWeapon : Interactable
 
     public override void Interact()
     {
-        WeaponController?.PickupWeapon(WeaponData);
+        WeaponController?.PickupWeapon(Weapon);
+
+        ObjectPool.instance.ReturnToPool(gameObject);
     }
 
     protected override void OnTriggerEnter(Collider other)

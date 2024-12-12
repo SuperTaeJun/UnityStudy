@@ -55,6 +55,7 @@ public class Weapon
     private float LastSpreadUpdateTime;
     private float SpreadCooldown = 1;
 
+    public WeaponData WeaponData { get; private set; }
     public Weapon(WeaponData weaponData)
     {
         WeaponType = weaponData.WeaponType;
@@ -83,6 +84,7 @@ public class Weapon
         BurstFireDelay = weaponData.BurstFireDelay;
         BurstFireRate = weaponData.BurstFireRate;
 
+        this.WeaponData = weaponData;
     }
 
     #region Burst Methods
