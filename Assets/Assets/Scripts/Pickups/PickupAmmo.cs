@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public struct AmmoData
+{
+    public EWeaponType WeaponType;
+    public int MinAmount;
+    public int MaxAmount;
+}
 public enum EAmmoBoxType
 {
     LargeBox,
@@ -11,18 +19,11 @@ public class PickupAmmo : Interactable
 {
     [SerializeField] EAmmoBoxType AmmoBoxType;
 
-    [System.Serializable]
-    public struct AmmoData
-    {
-        public EWeaponType WeaponType;
-        public int MinAmount;
-        public int MaxAmount;
-    }
+
     [SerializeField] List<AmmoData> SmallBoxAmmo;
     [SerializeField] List<AmmoData> LargeBoxAmmo;
 
     [SerializeField] private GameObject[] BoxModels;
-    private WeaponController WeaponController;
 
     public void Start()
     {
@@ -51,16 +52,6 @@ public class PickupAmmo : Interactable
         }
 
         ObjectPool.instance.ReturnToPool(gameObject);
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-
-        if(WeaponController == null)
-        {
-            WeaponController = other.GetComponent<WeaponController>();
-        }
     }
 
     private int GetRandBulletAmount(AmmoData Data)
