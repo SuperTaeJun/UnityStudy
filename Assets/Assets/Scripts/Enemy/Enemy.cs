@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,11 @@ public class Enemy : MonoBehaviour
 
     [Header("Move Info")]
     public float MoveSpeed;
+    public float TrunSpeed;
     [SerializeField] private Transform[] PatrolPoint;
     private int CurPatrolIndex;
 
+    public Animator Animator { get; private set; }
     public NavMeshAgent Agent {  get; private set; }
     public EnemyStateMachine StateMachine {get; private set;}
 
@@ -20,6 +23,7 @@ public class Enemy : MonoBehaviour
     {
         StateMachine = new EnemyStateMachine();
         Agent = GetComponent<NavMeshAgent>();
+        Animator = GetComponentInChildren<Animator>();
     }
 
     protected virtual void Start()
@@ -53,5 +57,15 @@ public class Enemy : MonoBehaviour
         return Destination;
     }
 
+    public Quaternion ForwardTarget(Vector3 Target)
+    {
+        Quaternion TargetRot = Quaternion.LookRotation(Target - transform.position);
+
+        Vector3 CurEulerAngles = transform.rotation.eulerAngles;
+
+        float yRot = Mathf.LerpAngle(CurEulerAngles.y, TargetRot.eulerAngles.y, TrunSpeed * Time.deltaTime);
+
+        return Quaternion.Euler(CurEulerAngles.x, yRot, CurEulerAngles.z);
+    }
 
 }

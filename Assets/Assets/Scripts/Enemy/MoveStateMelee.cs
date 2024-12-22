@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MoveStateMelee : EnemyState
 {
@@ -15,27 +16,49 @@ public class MoveStateMelee : EnemyState
     {
         base.Enter();
         Destination = Enemy.GetPatrolPoint();
+        Enemy.Agent.SetDestination(Destination);
+
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        Debug.Log("Exit MoveState");
     }
 
     public override void Update()
     {
         base.Update();
-        Enemy.Agent.SetDestination(Destination);
 
-        if(Enemy.Agent.remainingDistance <= 1 )
+        Enemy.transform.rotation = Enemy.ForwardTarget(GetNextPathPoint());
+
+        if(Enemy.Agent.remainingDistance <= Enemy.Agent.stoppingDistance +0.05f)
         {
             StateMachine.ChangeState(Enemy.IdleStateMelee);
         }
 
 
+    }
+    public Vector3 GetNextPathPoint()
+    {
+        NavMeshAgent Agent = Enemy.Agent;
+        NavMeshPath Path = Agent.path;
 
+        if(Path.corners.Length < 2)
+        {
+            return Agent.destination;
+        }
+
+        for(int i = 0; i < Path.corners.Length; i++)
+        {
+            if (Vector3.Distance(Agent.transform.position, Path.corners[i]) < 1)
+            {
+                return Path.corners[i+1];
+            }
+
+        }
+        return Agent.destination;
 
     }
+
 }
