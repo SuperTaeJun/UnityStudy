@@ -442,7 +442,7 @@ Transform:
   m_GameObject: {fileID: 90972078}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.29, y: 0, z: 1.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2138,7 +2138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0.002, y: -1.5894194, z: 2.696002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4584,9 +4584,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179e6bf68cef6e6448119245efef0c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdleTime: 2
-  MoveSpeed: 0
   TrunSpeed: 5
+  AggresionRange: 5
+  IdleTime: 2
+  MoveSpeed: 1.5
+  ChaseSpeed: 3
   PatrolPoint:
   - {fileID: 971187679}
   - {fileID: 753478874}
@@ -4599,7 +4601,7 @@ Transform:
   m_GameObject: {fileID: 1986901880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8184328, y: 0, z: 8.51}
+  m_LocalPosition: {x: -3.02, y: 0, z: 7.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9208,7 +9210,7 @@ Transform:
   m_GameObject: {fileID: 8576860089806408981}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: -12.38}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9622,6 +9624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8747977473498360653}
   - component: {fileID: 3424745612640317751}
+  - component: {fileID: 8747977473498360654}
   m_Layer: 0
   m_Name: Enemy_1
   m_TagString: Untagged
@@ -9861,6 +9864,18 @@ Transform:
   - {fileID: 7379694478716246875}
   m_Father: {fileID: 1986901883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8747977473498360654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8227196382835732983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cc4c9a719eb749bf482719188d292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8793828083948815303
 Transform:
   m_ObjectHideFlags: 0

@@ -24,6 +24,13 @@ public class IdleStateMelee : EnemyState
     public override void Update()
     {
         base.Update();
+
+        if (Enemy.PlayerInRange())
+        {
+            StateMachine.ChangeState(Enemy.RecoveryStateMelee);
+            return;
+        }
+
         if (StateTimer < 0)
         {
             StateMachine.ChangeState(Enemy.MoveStateMelee);
