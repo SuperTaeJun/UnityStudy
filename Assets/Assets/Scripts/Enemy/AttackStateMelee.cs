@@ -16,12 +16,13 @@ public class AttackStateMelee : EnemyState
     }
 
     public override void Enter()
-    {
+    {   
         base.Enter();
         AttackMoveSpeed = Enemy.AttackData.MoveSpeed;
 
         Enemy.Animator.SetFloat("AttackAnimSpeed", Enemy.AttackData.AnimSpeed);
         Enemy.Animator.SetFloat("AttackIndex", Enemy.AttackData.AttackIndex);
+        Enemy.Animator.SetFloat("SlashAttackIndex", Random.Range(0, 4));
 
         Enemy.Agent.isStopped = true;
         Enemy.Agent.velocity = Vector3.zero;
