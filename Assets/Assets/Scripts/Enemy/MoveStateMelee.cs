@@ -33,7 +33,7 @@ public class MoveStateMelee : EnemyState
     {
         base.Update();
 
-        if (Enemy.PlayerInRange())
+        if (Enemy.PlayerInAggresionRange())
         {
             StateMachine.ChangeState(Enemy.RecoveryStateMelee);
             return;

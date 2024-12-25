@@ -36,6 +36,9 @@ public class ChaseStateMelee : EnemyState
         }
 
         //어택 스테이트
+        if (Enemy.PlayerInAttckRange())
+            StateMachine.ChangeState(Enemy.AttackStateMelee);
+
     }
 
     private bool CanUpdateDestination()
