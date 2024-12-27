@@ -26,6 +26,7 @@ public class EnemyMelee : Enemy
     public RecoveryStateMelee RecoveryStateMelee { get; private set; }
     public ChaseStateMelee ChaseStateMelee { get; private set; }
     public AttackStateMelee AttackStateMelee { get; private set; }
+    public DeadStateMelee DeadStateMelee { get; private set; }
 
     [Header("AttackData")]
     public AttackData AttackData;
@@ -39,6 +40,7 @@ public class EnemyMelee : Enemy
         RecoveryStateMelee = new RecoveryStateMelee(this, StateMachine, "Recovery");
         ChaseStateMelee = new ChaseStateMelee(this, StateMachine, "Chase");
         AttackStateMelee = new AttackStateMelee(this, StateMachine, "Attack");
+        DeadStateMelee = new DeadStateMelee(this, StateMachine, "Idle"); //랙돌 사용
     }
 
     protected override void Start()
@@ -54,6 +56,13 @@ public class EnemyMelee : Enemy
         StateMachine.CurState.Update();
 
 
+    }
+    public override void GetHit()
+    {
+        base.GetHit();
+
+        if(Health <= 0)
+            StateMachine.ChangeState(DeadStateMelee);
     }
 
     protected override void OnDrawGizmos()

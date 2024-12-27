@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float ImpactForce;
+
     private Rigidbody Rigidbody;
     private BoxCollider BoxCollition;
     private MeshRenderer MeshRenderer;
@@ -24,8 +26,9 @@ public class Bullet : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
     }
 
-    public void BulletSetup(float WeaponRange)
+    public void BulletSetup(float WeaponRange, float ImpactForce)
     {
+        this.ImpactForce = ImpactForce;
         BulletDisabled = false;
         MeshRenderer.enabled = true;
         BoxCollition.enabled = true;
@@ -76,11 +79,27 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
+        Enemy Enemy = collision.gameObject.GetComponentInParent<Enemy>();
+
+        if(Enemy)
+        {
+            Vector3 Force = rb.velocity.normalized * ImpactForce;
+            Rigidbody HitRb = collision.collider.attachedRigidbody;
+
+            Enemy.GetHit();
+            Enemy.HitImpact(Force, collision.contacts[0].point, HitRb);
+        }
+
+
         CreateImpactFx(collision);
 
         TrailRenderer.Clear();
-        ObjectPool.instance.ReturnToPool(gameObject);
+        ReturnBulletPool();
     }
+
+    private void ReturnBulletPool() => ObjectPool.instance.ReturnToPool(gameObject);
+    
 
     private void CreateImpactFx(Collision collision)
     {

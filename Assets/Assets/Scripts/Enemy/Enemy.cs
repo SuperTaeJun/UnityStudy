@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] protected float Health = 20.0f;
+
 
     [Header("Idle Info")]
     public float IdleTime;
@@ -52,6 +54,22 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public virtual void GetHit()
+    {
+        Health--;
+    }
+    public virtual void HitImpact(Vector3 Power, Vector3 HitPoint, Rigidbody rb)
+    {
+        StartCoroutine(HitImpactCourutine(Power, HitPoint, rb));
+    }
+
+    private IEnumerator HitImpactCourutine(Vector3 Power,Vector3 HitPoint, Rigidbody rb)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        rb.AddForceAtPosition(Power, HitPoint,ForceMode.Impulse);
     }
 
     protected virtual void OnDrawGizmos()
