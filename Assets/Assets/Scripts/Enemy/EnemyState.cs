@@ -34,4 +34,8 @@ public class EnemyState
     }  
 
     public void AnimationTrigger() => TriggerCalled = true;
+
+    public virtual void AbilityTrigger()
+    {
+    }
 }

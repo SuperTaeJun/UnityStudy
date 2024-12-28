@@ -87,7 +87,9 @@ public class Enemy : MonoBehaviour
 
 
     public void AnimationTrigger() => StateMachine.CurState.AnimationTrigger();
-
+    public virtual void AbilityTrigger() => StateMachine.CurState.AbilityTrigger();
+    
+    
     public bool PlayerInAggresionRange() => Vector3.Distance(transform.position, Player.transform.position) < AggresionRange;
 
 

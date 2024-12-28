@@ -18,6 +18,8 @@ public class AttackStateMelee : EnemyState
     public override void Enter()
     {   
         base.Enter();
+        Enemy.PulledWeaponActive();
+
         AttackMoveSpeed = Enemy.AttackData.MoveSpeed;
 
         Enemy.Animator.SetFloat("AttackAnimSpeed", Enemy.AttackData.AnimSpeed);

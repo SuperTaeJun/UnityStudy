@@ -23,7 +23,8 @@ public enum EnemyMelee_Type
 {
     Regular,
     Shield,
-    Dodge
+    Dodge,
+    Axe
 }
 
 
@@ -36,16 +37,28 @@ public class EnemyMelee : Enemy
     public ChaseStateMelee ChaseStateMelee { get; private set; }
     public AttackStateMelee AttackStateMelee { get; private set; }
     public DeadStateMelee DeadStateMelee { get; private set; }
+    public AbilityStateMelee AbilityStateMelee { get; private set; }
 
     [Header("EnemyMelee Setting")]
     public EnemyMelee_Type MeleeType;
     [SerializeField] private Transform ShieldTransform;
     public float RollCooldown;
     private float LastRollTime;
+
+    [Header("AxeThrow Ability")]
+    public GameObject AxePrefab;
+    public float AxeFlySpeed;
+    public float AxeTimer;
+    public float AxeCooldown;
+    public Transform AxeStartPoint;
+    private float LastTimeAxeThrown;
+
     [Header("AttackData")]
     public AttackData AttackData;
     public List<AttackData> AttackDatas;
 
+
+    [SerializeField] Transform PulledWeapon;
     protected override void Awake()
     {
         base.Awake();
@@ -55,6 +68,7 @@ public class EnemyMelee : Enemy
         ChaseStateMelee = new ChaseStateMelee(this, StateMachine, "Chase");
         AttackStateMelee = new AttackStateMelee(this, StateMachine, "Attack");
         DeadStateMelee = new DeadStateMelee(this, StateMachine, "Idle"); //랙돌 사용
+        AbilityStateMelee = new AbilityStateMelee(this, StateMachine, "AxeThrow");
     }
 
     protected override void Start()
@@ -71,6 +85,14 @@ public class EnemyMelee : Enemy
         StateMachine.CurState.Update();
 
 
+    }
+
+    public override void AbilityTrigger()
+    {
+        base.AbilityTrigger();
+
+        MoveSpeed = MoveSpeed * 0.6f;
+        PulledWeapon.gameObject.SetActive(false);
     }
 
     private void InitSpciality()
@@ -116,5 +138,22 @@ public class EnemyMelee : Enemy
 
     }
 
+    public bool CanThrowAxe()
+    {
+        if (MeleeType != EnemyMelee_Type.Axe)
+            return false;
+
+        if (Time.time > LastTimeAxeThrown + AxeCooldown)
+        {
+            LastTimeAxeThrown = Time.time;
+            return true;
+        }
+        return false;
+    }
+
+
+
+    public void PulledWeaponActive() => PulledWeapon.gameObject.SetActive(true);
+    
 
 }
