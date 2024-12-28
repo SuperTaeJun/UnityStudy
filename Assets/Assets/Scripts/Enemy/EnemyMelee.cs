@@ -18,6 +18,15 @@ public enum AttackType_Melee
     Close,
     Charge
 }
+
+public enum EnemyMelee_Type
+{
+    Regular,
+    Shield,
+    Dodge
+}
+
+
 public class EnemyMelee : Enemy
 {
 
@@ -28,6 +37,11 @@ public class EnemyMelee : Enemy
     public AttackStateMelee AttackStateMelee { get; private set; }
     public DeadStateMelee DeadStateMelee { get; private set; }
 
+    [Header("EnemyMelee Setting")]
+    public EnemyMelee_Type MeleeType;
+    [SerializeField] private Transform ShieldTransform;
+    public float RollCooldown;
+    private float LastRollTime;
     [Header("AttackData")]
     public AttackData AttackData;
     public List<AttackData> AttackDatas;
@@ -48,6 +62,7 @@ public class EnemyMelee : Enemy
         base.Start();
 
         StateMachine.Init(IdleStateMelee);
+        InitSpciality();
     }
     protected override void Update()
     {
@@ -56,6 +71,15 @@ public class EnemyMelee : Enemy
         StateMachine.CurState.Update();
 
 
+    }
+
+    private void InitSpciality()
+    {
+        if(MeleeType == EnemyMelee_Type.Shield)
+        {
+            Animator.SetFloat("ChaseIndex", 1f);
+            ShieldTransform.gameObject.SetActive(true);
+        }
     }
     public override void GetHit()
     {
@@ -74,4 +98,23 @@ public class EnemyMelee : Enemy
     }
 
     public bool PlayerInAttckRange() => Vector3.Distance(transform.position, Player.transform.position) < AttackData.AttackRange;
+
+    public void ActiveRoll()
+    {
+        if (MeleeType != EnemyMelee_Type.Dodge)
+            return;
+
+        if (Vector3.Distance(transform.position, Player.position) < 3f)
+            return;
+
+        if(Time.time > RollCooldown + LastRollTime)
+        {
+            LastRollTime = Time.time;
+            Animator.SetTrigger("Roll");
+
+        }
+
+    }
+
+
 }

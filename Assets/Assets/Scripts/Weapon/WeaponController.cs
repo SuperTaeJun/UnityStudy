@@ -143,7 +143,7 @@ public class WeaponController : MonoBehaviour
 
         FireBulletOne();
 
-
+        TriggerEnemyRool();
     }
 
     private void FireBulletOne()
@@ -199,6 +199,21 @@ public class WeaponController : MonoBehaviour
     public Transform GetMuzzlePoint() => Player.WeaponVisual.CurWeaponModel().MuzzlePoint;
     public Weapon GetCurWeapon() => CurWeapon;
 
+    private void TriggerEnemyRool()
+    {
+        Vector3 RayOrigin = GetMuzzlePoint().position;
+        Vector3 RayDir = BulletDir();
+
+        if(Physics.Raycast(RayOrigin,RayDir,out RaycastHit hit, Mathf.Infinity))
+        {
+            EnemyMelee Enemy = hit.collider.gameObject.GetComponentInParent<EnemyMelee>();
+
+            if(Enemy)
+            {
+                Enemy.ActiveRoll();
+            }
+        }
+    }
     #region InputEvent
     private void AssignInputEvent()
     {
