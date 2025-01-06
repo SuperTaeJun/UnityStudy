@@ -522,7 +522,7 @@ MonoBehaviour:
     CurAmmo: 0
     ReloadAmount: 0
     totalCapacity: 0
-  BulletImpactForce: 300
+  BulletImpactForce: 150
   BulletPrefab: {fileID: 3616640941712745673, guid: d2a54a24495aa3741bb977ce803832c6, type: 3}
   BulletSpeed: 30
   WeaponHolderTransform: {fileID: 1637259712}
@@ -4702,11 +4702,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 20
   IdleTime: 2
-  AggresionRange: 5
+  AggresionRange: 4
   TrunSpeed: 5
   MoveSpeed: 1.5
   ChaseSpeed: 4
-  PatrolPoint:
+  PatrolPoints:
   - {fileID: 971187679}
   - {fileID: 753478874}
   MeleeType: 2
@@ -4715,7 +4715,7 @@ MonoBehaviour:
   AxePrefab: {fileID: 6141703689161360476, guid: 0210cdddf96e24742bfcc0d886451d35, type: 3}
   AxeFlySpeed: 5
   AxeTimer: 1
-  AxeCooldown: 10
+  AxeCooldown: 8
   AxeStartPoint: {fileID: 814027642}
   AttackData:
     AttackName: 

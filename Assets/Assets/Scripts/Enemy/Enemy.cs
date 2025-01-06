@@ -21,9 +21,12 @@ public class Enemy : MonoBehaviour
     private bool ManualMovement;
 
 
-    [SerializeField] private Transform[] PatrolPoint;
+    [SerializeField] private Transform[] PatrolPoints;
+    private Vector3[] PatrolPointsPos;
+
     private int CurPatrolIndex;
 
+    public bool InBattleMode {  get; private set; }
 
     public Transform Player {  get; private set; }
     public Animator Animator { get; private set; }
@@ -41,11 +44,12 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         InitPatrolPoint();
+        InitPatrolPos();
     }
 
     private void InitPatrolPoint()
     {
-        foreach (Transform t in PatrolPoint)
+        foreach (Transform t in PatrolPoints)
         {
             t.parent = null;
         }
@@ -56,56 +60,40 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public virtual void GetHit()
+    protected bool ShouldEnterBattleMode()
     {
-        Health--;
-    }
-    public virtual void HitImpact(Vector3 Power, Vector3 HitPoint, Rigidbody rb)
-    {
-        StartCoroutine(HitImpactCourutine(Power, HitPoint, rb));
+        bool InAggresionRange = Vector3.Distance(transform.position, Player.transform.position) < AggresionRange;
+
+        if (InAggresionRange && !InBattleMode)
+        {
+            EnterBattleMode();
+            return true;
+        }
+        return false;
     }
 
-    private IEnumerator HitImpactCourutine(Vector3 Power,Vector3 HitPoint, Rigidbody rb)
+    public virtual void EnterBattleMode()
+    {
+        InBattleMode = true;
+    }
+
+    public virtual void GetHit()
+    {
+        EnterBattleMode();
+        Health--;
+    }
+    public virtual void DeadImpact(Vector3 Power, Vector3 HitPoint, Rigidbody rb)
+    {
+        StartCoroutine(DeadImpactCourutine(Power, HitPoint, rb));
+    }
+
+    private IEnumerator DeadImpactCourutine(Vector3 Power,Vector3 HitPoint, Rigidbody rb)
     {
         yield return new WaitForSeconds(0.1f);
 
         rb.AddForceAtPosition(Power, HitPoint,ForceMode.Impulse);
     }
 
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, AggresionRange);
-    }
-
-    public void AcitveManualMovement(bool ManualRotation) => this.ManualMovement = ManualRotation;
-    public bool ManualMovementActive() => ManualMovement;
-
-    public void AcitveManualRotation(bool ManualRotation) => this.ManualRotation = ManualRotation;
-    public bool ManualRotationActive() => ManualRotation;
-
-
-
-    public void AnimationTrigger() => StateMachine.CurState.AnimationTrigger();
-    public virtual void AbilityTrigger() => StateMachine.CurState.AbilityTrigger();
-    
-    
-    public bool PlayerInAggresionRange() => Vector3.Distance(transform.position, Player.transform.position) < AggresionRange;
-
-
-
-    public Vector3 GetPatrolPoint()
-    {
-        Vector3 Destination = PatrolPoint[CurPatrolIndex].position;
-        CurPatrolIndex++;
-
-        if(CurPatrolIndex >= PatrolPoint.Length)
-        {
-            CurPatrolIndex = 0;
-        }
-
-        return Destination;
-    }
     public Quaternion ForwardTarget(Vector3 Target)
     {
         Quaternion TargetRot = Quaternion.LookRotation(Target - transform.position);
@@ -117,4 +105,47 @@ public class Enemy : MonoBehaviour
         return Quaternion.Euler(CurEulerAngles.x, yRot, CurEulerAngles.z);
     }
 
+    #region AnimationEvent
+    public void AcitveManualMovement(bool ManualRotation) => this.ManualMovement = ManualRotation;
+    public bool ManualMovementActive() => ManualMovement;
+
+    public void AcitveManualRotation(bool ManualRotation) => this.ManualRotation = ManualRotation;
+    public bool ManualRotationActive() => ManualRotation;
+
+
+
+    public void AnimationTrigger() => StateMachine.CurState.AnimationTrigger();
+    public virtual void AbilityTrigger() => StateMachine.CurState.AbilityTrigger();
+
+    #endregion
+
+    #region Patrol
+    public Vector3 GetPatrolPoint()
+    {
+        Vector3 Destination = PatrolPointsPos[CurPatrolIndex];
+        CurPatrolIndex++;
+
+        if(CurPatrolIndex >= PatrolPoints.Length)
+        {
+            CurPatrolIndex = 0;
+        }
+
+        return Destination;
+    }
+    private void InitPatrolPos()
+    {
+        PatrolPointsPos = new Vector3[PatrolPoints.Length];
+
+        for(int i = 0; i < PatrolPoints.Length; i++)
+        {
+            PatrolPointsPos[i] = PatrolPoints[i].position;
+            PatrolPoints[i].gameObject.SetActive(false);
+        }
+    }
+    #endregion
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, AggresionRange);
+    }
 }

@@ -30,7 +30,7 @@ public enum EnemyMelee_Type
 
 public class EnemyMelee : Enemy
 {
-
+    #region State
     public IdleStateMelee IdleStateMelee {  get; private set; }
     public MoveStateMelee MoveStateMelee { get; private set;}
     public RecoveryStateMelee RecoveryStateMelee { get; private set; }
@@ -38,12 +38,13 @@ public class EnemyMelee : Enemy
     public AttackStateMelee AttackStateMelee { get; private set; }
     public DeadStateMelee DeadStateMelee { get; private set; }
     public AbilityStateMelee AbilityStateMelee { get; private set; }
+    #endregion
 
     [Header("EnemyMelee Setting")]
     public EnemyMelee_Type MeleeType;
     [SerializeField] private Transform ShieldTransform;
     public float RollCooldown;
-    private float LastRollTime;
+    private float LastRollTime = -10;
 
     [Header("AxeThrow Ability")]
     public GameObject AxePrefab;
@@ -84,8 +85,22 @@ public class EnemyMelee : Enemy
 
         StateMachine.CurState.Update();
 
+        if(ShouldEnterBattleMode())
+        {
+            EnterBattleMode();
+        }
 
     }
+
+    public override void EnterBattleMode()
+    {
+        if (InBattleMode) return;
+
+        base.EnterBattleMode();
+            
+        StateMachine.ChangeState(RecoveryStateMelee);
+    }
+
 
     public override void AbilityTrigger()
     {
@@ -126,10 +141,15 @@ public class EnemyMelee : Enemy
         if (MeleeType != EnemyMelee_Type.Dodge)
             return;
 
+        if (StateMachine.CurState != ChaseStateMelee)
+            return;
+
         if (Vector3.Distance(transform.position, Player.position) < 3f)
             return;
 
-        if(Time.time > RollCooldown + LastRollTime)
+        float DodgeAnimDuration = GetAnimationClipDuration("Roll");
+
+        if (Time.time > RollCooldown + LastRollTime)
         {
             LastRollTime = Time.time;
             Animator.SetTrigger("Roll");
@@ -151,7 +171,19 @@ public class EnemyMelee : Enemy
         return false;
     }
 
+    private float GetAnimationClipDuration(string ClipName)
+    {
+        AnimationClip[] clips = Animator.runtimeAnimatorController.animationClips;
 
+        foreach (AnimationClip clip in clips)
+        {
+            if(clip.name == ClipName)
+                return clip.length;
+        }
+
+
+        return 0;
+    }
 
     public void PulledWeaponActive() => PulledWeapon.gameObject.SetActive(true);
     
